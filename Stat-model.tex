@@ -60,6 +60,7 @@
 \date{}
 
 \usepackage{tcolorbox}
+\usepackage{capt-of}
 
 \begin{document}
 
@@ -313,7 +314,7 @@ Per testare i risultati ottenuti dei parametri si possono effettuare due misure 
 H_0 = \beta_i = 0
 \end{equation}
 
-\begin{tcolorbox}[title = Il test di ipotesi e \textit{p-value}]
+\subsubsection{Test di ipotesi e \textit{p-value}}
 Un test di ipotesi è un procedimento tramite il quale si verifica la validità di una certa ipotesi. Solitamente si parte definendo un'\textit{ipotesi nulla} tramite la quale si afferma che per la popolazione, o comunque più in generale per il fenomeno che si sta studiando, vale una determinata condizione, ovvero:
 \begin{equation}
 H_0 = \mu 
@@ -323,28 +324,38 @@ L'\textit{ipotesi alternativa} invece specifica che cosa è vero nel caso in cui
 \begin{equation}
 H_1 \neq \mu 
 \end{equation}
-La valutazione dei risultati di un test di ipotesi avviene considerando il cosiddetto \textit{p-value}. Per calcolare il p-value si calcola prima la distribuzione di probabilità per l'ipotesi nulla, assumendo quindi che essa sia vera, ed in seguito per calcolare il p-value bisogna calcolare la probabilità di ottenere un valore che sia più grande del valore osservato. Quindi l'area sottesa alla parte di curva a destra del valore osservato.\\
-FIGURAAAA
-Vogliamo che la probabilità evidenziata sia la più piccola possibile, ovvero che il valore osservato sia il più possibile discostato dal centro della curva in quanto essa è centrata sull'ipotesi nulla.\\
-Se stabiliamo un livello di confidenza $\alpha$ ciò significa che la \textit{probabilità} di ottenere un valore uguale o più grande del valore osservato deve essere minore o uguale a $\alpha$. Quindi la parte di curva (probabilità) dentro le regioni delle code esterne individuate da $\alpha$ è uguale a $1-\alpha$.
+La valutazione dei risultati di un test di ipotesi avviene considerando il cosiddetto \textit{p-value}. Per calcolare il p-value si calcola prima la distribuzione di probabilità per l'ipotesi nulla, assumendo quindi che essa sia vera si costruisce la distribuzione di probabilità centrata su questo valore, ed in seguito bisogna calcolare la probabilità di ottenere un valore che sia più grande del valore medio osservato per la quantità che si sta studiando. La distribuzione di probabilità che si costruisce infatti è una distribuzione delle  medie, e il valore osservato è una media ottenuta da un campione.\\ 
+Il p-value è quindi l'area sottesa alla parte di curva a destra del valore osservato.
+Vogliamo che la probabilità evidenziata sia la più piccola possibile, ovvero che il valore osservato sia il più possibile discostato dal centro della curva in quanto essa è centrata sull'ipotesi nulla. Se stabiliamo un livello di confidenza $\alpha$ ciò significa che la \textit{probabilità} di ottenere un valore uguale o più grande del valore osservato deve essere minore o uguale a $\alpha$. Quindi la parte di curva (probabilità) dentro le regioni delle code esterne individuate da $\alpha$ è uguale a $1-\alpha$.
 \begin{equation}
-P(-Z_{\frac{\alpha}{2}}< a < +Z_{\frac{\alpha}{2}}) = 1 - \alpha
+P(-Z_{\frac{\alpha}{2}}< \bar{a} < +Z_{\frac{\alpha}{2}}) = 1 - \alpha
 \end{equation}
-Dove $-Z_{\frac{\alpha}{2}}$ e $+Z_{\frac{\alpha}{2}}$ rappresentano i valori di $a$ tali per cui la probabilità racchiusa all'interno di questi valori è uguale a $1-\alpha$. Se standardizziamo la distribuzione della quantità $a$ in modo da renderla a media nulla e varianza 1 (quindi sottraiamo la media e dividiamo per la deviazione standard), otteniamo:
+Dove $-Z_{\frac{\alpha}{2}}$ e $+Z_{\frac{\alpha}{2}}$ rappresentano i valori di $\bar{a}$ tali per cui la probabilità racchiusa all'interno di questi valori è uguale a $1-\alpha$. 
+\begin{figure}
+\centering
+\includegraphics[scale= 0.3]{Immagini/distro-pvalue.png}
+\caption{La curva rappresenta la distribuzione centrata sull'ipotesi nulla, le parti colorate di rosso rappresenta invece il livello $\alpha$ in questo caso uguale al $5\%$, quindi, essendo la curva simmetrica sarà $0,025$ a destra, e $0,025$ a sinistra. La linea tratteggiata rappresenta invece il valore osservato che in questo caso cade all'interno dell'area accettata per rifiutare l'ipotesi nulla.
+credits: http://blog.minitab.com/blog/adventures-in-statistics-2/understanding-hypothesis-tests:-significance-levels-alpha-and-p-values-in-statistics}
+\label{fig: distro-pvalue}
+\end{figure}
+Se standardizziamo la distribuzione della quantità $\bar{a}$ in modo da renderla a media nulla e varianza 1 (quindi sottraiamo la media e dividiamo per la deviazione standard), otteniamo:
 \begin{equation}
-P(-Z'_{\frac{\alpha}{2}}< \frac{a - \mu_a(H_0)}{\sigma} < +Z'_{\frac{\alpha}{2}}) = 1 - \alpha
+P\left(-Z'_{\frac{\alpha}{2}}< \frac{\bar{a} - \mu_a(H_0)}{\sigma} < +Z'_{\frac{\alpha}{2}}\right) = 1 - \alpha
 \end{equation}
-che implica che $a$ deve trovarsi entro i seguenti valori in termini di deviazione standard rispetto alla media:
+che implica che $\bar{a}$ deve trovarsi entro i seguenti valori in termini di deviazione standard rispetto alla media:
 \begin{equation}
 \label{eq: prob-interna}
-P(\mu_a(H_0) - Z'_{\frac{\alpha}{2}} \cdot \sigma < a < \mu_a(H_0) + Z'_{\frac{\alpha}{2}} \cdot \sigma) = 1 - \alpha
+P\left(\mu_a(H_0) - Z'_{\frac{\alpha}{2}} \cdot \sigma < \bar{a} < \mu_a(H_0) + Z'_{\frac{\alpha}{2}} \cdot \sigma \right) = 1 - \alpha
 \end{equation}
 I valori di $Z'$ sono tabulati dalla funzione degli errori.\\
-La probabilità (p-value) per un valore osservato di $a$ è:
+La probabilità (p-value) per un valore osservato di $\bar{a}$ è:
 \begin{equation}
-p = P( \vert \frac{a - \mu_a(H_0)}{\sigma} \vert > \vert \frac{a_{oss} - \mu_a(H_0)}{\sigma} \vert)
+p = P\left( \left| \frac{\bar{a} - \mu_a(H_0)}{\sigma} \right| > \left| \frac{\bar{a_{oss}} - \mu_a(H_0)}{\sigma} \right| \right)
 \end{equation}
-che rappresenta quindi la probabilità di osservare un valore di $a$ maggiore o uguale a quello che si è osservato (supponendo valida l'ipotesi nulla). Se questo valore di probabilità è inferiore al livello $\alpha$ fissato (quindi il valore $a_{oss}$ è al di fuori dell'intervallo individuato in termini di $Z'$ intervalli di confidenza) si può rigettare l'ipotesi nulla.
+che rappresenta quindi la probabilità di osservare un valore di $\bar{a}$ maggiore o uguale a quello che si è osservato (supponendo valida l'ipotesi nulla). Se questo valore di probabilità è inferiore al livello $\alpha$ fissato (quindi il valore $\bar{a_{oss}}$ è al di fuori dell'intervallo individuato in termini di $Z'$ intervalli di confidenza) si può rigettare l'ipotesi nulla.
+
+\begin{tcolorbox}[colback=cyan!5!white, colframe=cyan!75!black, title = Il livello di confidenza $\alpha$]
+A livello interpretativo il livello di confidenza $\alpha$ che si specifica (solitamente è fissato a $0,05$, ovvero al $5\%$ totale della distribuzione) indica la probabilità di rigettare l'ipotesi nulla nel caso in cui poi essa sia effettivamente vera, ovvero le probabilità di errore. Nel valutare l'ipotesi nulla infatti possiamo incappare in due tipi di errori: ritenerla vera quando invece in realtà è falsa, e ritenerla falsa quando invece in realtà è vera. Specificando il livello $\alpha$ stiamo specificando la probabilità di commettere il secondo tipo di errore, infatti se diciamo che rifiutiamo l'ipotesi nulla se il valore che osserviamo cade nelle code, ovvero nella regione $\alpha$ della curva, stiamo comunque rifiutando tutti quei valori della distribuzione per cui l'ipotesi nulla è comunque vera, anche se poco probabile. Quindi nel caso in cui poi l'ipotesi nulla sia effettivamente vera, al massimo in $\alpha \; ( e.g.\!5\%)$ dei casi concluderemo che è falsa, in quanto troveremo i valori nelle code per cui abbiamo deciso si rifiutare l'ipotesi, mentre nel rimanente $95\%$ concluderemo correttamente che è vera. Se invece è effettivamente falsa queste probabilità non valgono più.
 \end{tcolorbox}
 
 \subsubsection{t-test}
@@ -362,19 +373,32 @@ se la $\sigma$ è nota, altrimenti si usa il suo stimatore $s$, quindi:
 \begin{equation}
 t = \frac{\beta_i}{\frac{s}{\sqrt{n \sigma_{jj}}}}
 \end{equation}
-Se si fissa quindi un livello di confidenza $\alpha$ per il p-value,  per esempio $\alpha = 0,05$, si ottiene che l'ipotesi nulla deve essere rigettata se $t > 1,96$. \\
+Se si fissa quindi un livello di confidenza $\alpha$ per il p-value,  per esempio $\alpha = 0,05$, si ottiene che l'ipotesi nulla deve essere rigettata se $\vert t \vert > 1,96$. \\
 Si può quindi riscrivere il p-value in termini della statistica t:
 \begin{equation}
-p = P(t > t_{oss})
+p = P(\vert t \vert > t_{oss})
 \end{equation}
 
-Se la quantità $a$ è distribuita normalemnte allora t è distribuito come un $\chi^2$ a $n-1$ gradi di libertà che tende ad una distribuzione normale per grandi $n$ (si veda Stock p.87).
+Se la quantità $a$ è distribuita normalmente allora t è distribuito come un $\chi^2$ a $n-1$ gradi di libertà che tende ad una distribuzione normale per grandi $n$ (si veda Stock p.87).
+
+\begin{tcolorbox}[colback=cyan!5!white, colframe=cyan!75!black, title= \textbf{Intervallo di confidenza}, sidebyside align=center, lower separated=false]
+Un altro metodo per valutare la validità dell'ipotesi nulla è calcolare l'\textit{intervallo di confidenza} per il valore che si osserva.\\
+Per costruire l'intervallo di confidenza ci si centra sul valore medio osservato e si costruisce su questo una distribuzione campionaria. Secondo l'espressione del t-value, l'ipotesi nulla è rifiutata, secondo un determinato livello di confidenza $\alpha$, se è distante dal valore medio osservato più di t deviazioni standard. Nel caso di $\alpha = 5\%$, si avrà che l'ipotesi nulla non è rifiutata se $-1,96 \cdot SE(\bar{a}) < \bar{a} - \bar{a}_0 < +1,96 \cdot SE(\bar{a})$, ovvero se il valore dell'ipotesi nulla è contenuta all'interno dell'intervallo $[\bar{a} - 1,96 \cdot SE(\bar{a}), \bar{a} + 1,96 \cdot SE(\bar{a})]$ che rappresenta il $95\%$ dei valori della distribuzione campionaria centrata su $\bar{a}$, in quanto è appunto la regione di curva compresa entro 1.96 deviazioni standard.
+\begin{center}
+%\centering
+\includegraphics[scale=0.3]{Immagini/intervallo-di-confidenza.png}
+\captionof{figure}{credits: \url{http://blog.minitab.com/blog/adventures-in-statistics-2/understanding-hypothesis-tests\%3A-confidence-intervals-and-confidence-levels}}
+\end{center}
+A questo punto se l'ipotesi nulla è effettivamente vera nel $95\%$ dei casi sarà accettata, mentre solamente nel $5\%$ dei casi sarà rifiutata, cioè per il $95\%$ degli intervalli calcolati per diversi valori osservati sarà accettata, mentre per il rimanente $5\%$ degli intervalli non sarà accettata . Questi intervalli di confidenza sono quelli centrati su valori osservati che sono nella regione del $5\%$ delle code per la distribuzione centrata sull'ipotesi nulla, ovvero quei valori nelle regioni rosse in figura \ref{fig: distro-pvalue}. 
+\end{tcolorbox}
+
 \subsubsection{F measure}
 Nel caso sia condotta una regressione con più regressori si può effettuare un test di ipotesi congiunto per i vari parametri che vengono stimati, ovvero vedere se un determinato set di parametri è efficiente o meno nella stima del modello. Quindi è definita la seguente ipotesi nulla:
 \begin{equation}
 \begin{split}
 H_0 &: \; \beta_0 = 0 ,\; \beta_1 = 0,\; \cdot ,\; \beta_k = 0 \\
 &:\; \beta_0 =  \beta_1 = \cdot = \beta_k = 0
+\end{split}
 \end{equation}
 che implica l'ipotesi alternativa:
 \begin{equation}
