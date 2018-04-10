@@ -416,6 +416,53 @@ dove $SSR$ rappresenta la somma dei residui al quadrato del modello, cioè la de
 P(F_0 < F_\alpha) = 1-\alpha
 \end{equation}
 ovvero se si ottiene un valore per il test $F_0$ minore del valore $F_\alpha$, valore per cui la probabilità è uguale a $1-\alpha$. Questo valore si può trovare tabulato. Se invece si trova un valore maggiore, tale per cui la probabilità di ottenere un valore maggiore o uguale è uguale o minore di $\alpha$, allora si può rigettare l'ipotesi nulla.
+\subsection{Stima dei parametri tramite massima verosimiglianza}
+Nel modello lineare classico gli errori si distribuiscono, come si è detto, in modo gaussiano, ovvero:
+\begin{equation}
+\epsilon_i \sim N(0,\sigma^2)
+\end{equation}
+così come anche i parametri e le variabili dipendenti, cioè:
+\begin{equation}
+\begin{split}
+b_{OLS} &\sim N(\beta, \sigma^2(X^tX)^{-1}) \\
+Y \sim N(X\beta, \sigma^2 I_n)
+\end{equation}
+Si può quindi provare a utilizzare stime di massima verosimiglianza che chiedono l'esistenza di n variabili casuali $y_i - X_i\beta$ con $i=1 \cdots n$ che siano identicamente e indipendentemente distribuite condizionatamente al valore $X$ e dipendenti dai parametri $\beta$.\\
+Si cerca quindi il valore dei parametri che rendono massima la probabilità di ottenere la verosimiglianza massima:
+\begin{equation}
+max_\beta L(y_i - X_i\beta) \quad i=1 \cdots n
+\end{equation}
+Da questo si arriva a dimostrare che lo stimatore dei $\beta$ di massima verosimiglianza (ML) coincide con quello trovato in precedenza, e possiede le stesse proprietà di consistenza, correttezza ed efficienza, comprese le proprietà asintotiche richieste nel caso in cui le misure siano statisticamente indipendenti.
+
+\subsection{Variabili esplicative qualitative}
+Le variabili esplicative qualitative o categoriche sono determinate da attributi:
+\begin{itemize}
+\item nominali
+\item ordinali
+\end{itemize}
+e possono essere:
+\begin{enumerate}
+\item dicotomiche (\textit{dummy variables}) se assumono solamente due valori (e.g. sesso);
+\item Politomiche, se assumono più di due valori.
+\end{enumerate}
+
+Ora se abbiamo un modello lineare del tipo:
+\begin{equation}
+Y_i = \beta_0 + \beta_1 D_i + \epsilon_i \quad i=1 \cdots n
+\end{equation}
+in cui la $D_i$ è una variabili dummy, si ha che essa va ad esercitare il proprio effetto sull'intercetta. Solitamente si riconducono le due possibilità per la variabile dummy ai due valori 0 e 1, per cui quando si ha $D=0$ si ottiene:
+\begin{equation}
+Y_i = \beta_0 + \epsilon_i
+\label{eq: dummy intercetta}
+\end{equation}
+mentre quando $D=1$, si ottiene:
+\begin{equation}
+Y_i = \beta_0 + \beta_1 + \epsilon
+\label{eq: dummy completa}
+\end{equation}
+ovvero l'intercetta rappresenta il \textit{valore stimato} di $Y$ quando la variabile esplicativa dummy è uguale a 0. Il coefficiente angolare è dato invece dalla differenza in Y per i due diversi valori della variabile esplicativa dummy, ovvero facendo la differenza tra la \eqref{eq: dummy intercetta} e \eqref{eq: dummy completa}.
+La statistica inferenziale si fa anche in questo caso come prima, utilizzando stime e test.
+
 \section{Regressione logistica}
 [ref: https://codesachin.wordpress.com/2015/08/16/logistic-regression-for-dummies/ , https://www.youtube.com/watch?v=gNhogKJ\_q7U]\\
 La regressione logistica a differenza di altri tipi di regressione non si pone l'obiettivo di predire il valore di una variabile dato un certo numero di input. La regressione logistica si applica infatti a variabili categoriche. La regressione logistica restituisce in output la \textit{probabilità} che un certo punto in input appartenga ad una certa classe. Assumiamo per semplicità di avere solamente due classi (classe binaria) in cui la variabile dipendente $y$ può assumere valori. A differenza della regressione lineare classica quindi la variabile dipendente può assumere solamente un numero finito di valori e non uno spettro continuo. Possiamo comunque provare ad applicare una regressione lineare ad un problema che coinvolge variabili questo tipo, infatti a parte essere una variabile binaria, non c'è nulla di speciale nella variabile y che vogliamo prevedere, i problemi sorgono quando si devono poi interpretare i risultati restituiti da questo modello. Applichiamo quindi un modello lineare utilizzando tutte le variabili indipendenti $x_1, \cdots, x_n$ che si ritengono significative per la previsione di un'uscita della variabile $y$. Sia questa uscita $y=1$, più il risultato restituito dal modello, per determinati valori delle variabili indipendenti, è alto, più sarà probabile che il valore per la variabile dipendente sia effettivamente uguale a $1$. Per esempio possiamo considerare il caso di superare o meno un esame, la possibilità di successo la codifichiamo con il valore $y=1$, mentre quella di insuccesso con il valore $y=0$. Per convenzione solitamente si predice la variabile che viene indicata con $1$, quindi in questo caso la possibilità di successo, di conseguenza inseriamo nel modello tutte quelle variabili che riteniamo significative per questa predizione. Supponendo di avere tra le variabili solamente il tempo di studio il modello lineare avrà la seguente forma:
