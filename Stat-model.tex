@@ -61,6 +61,7 @@
 
 \usepackage{tcolorbox}
 \usepackage{capt-of}
+\usepackage{float}
 
 \begin{document}
 
@@ -425,7 +426,8 @@ così come anche i parametri e le variabili dipendenti, cioè:
 \begin{equation}
 \begin{split}
 b_{OLS} &\sim N(\beta, \sigma^2(X^tX)^{-1}) \\
-Y \sim N(X\beta, \sigma^2 I_n)
+Y &\sim N(X\beta, \sigma^2 I_n)
+\end{split}
 \end{equation}
 Si può quindi provare a utilizzare stime di massima verosimiglianza che chiedono l'esistenza di n variabili casuali $y_i - X_i\beta$ con $i=1 \cdots n$ che siano identicamente e indipendentemente distribuite condizionatamente al valore $X$ e dipendenti dai parametri $\beta$.\\
 Si cerca quindi il valore dei parametri che rendono massima la probabilità di ottenere la verosimiglianza massima:
@@ -494,24 +496,74 @@ nei software è spesso anche possibile impostare una soglia per la probabilità 
 \section{Violazioni del modello lineare classico}
 
 \subsection{Eteroschedasticità}
-L'ipotesi di omoschedasticità suppone che il termine di errore sia uguale per tutte le variabili indipendenti. Però ci possono essere situazioni in cui ciò non è vero, ovvero situazioni in cui il termine di errore varia tra le diverse variabili indipendenti,  in questo caso se osserviamo uno scatter plot dei residui in funzione dei valori predetti per la variabile dipendente osserviamo un tipico andamento a cono. Un altro andamento anomalo di qeusto tipo lo si può osservare in un semplice grafico scatter plot della variabile dipendente in funzione della variabile indipendente. nel caso di errori omoschedastici i punti sono collocati in modo equidistante dalla retta interpolante, mentre nel caso di errori eteroschedastici i punti sono distanziati in maniera diversa da questa. Il problema nel caso eteroschedastico si pone in quanto il metodo OLS (Ordinary Least Squares) cioè il metodo dei minimi quadrati ordinari mira a minimizzare i residui ottenendo lo standard error minimo. Il metodo OLS pesa però tutte le osservazioni allo stesso modo, mentre quando si trattano errori eteroschedastici è necessario pesare meno i valori con più errore e pesare di più quelli che invece sono più rilevanti.\\
+L'ipotesi di omoschedasticità suppone che il termine di errore sia uguale per tutte le variabili indipendenti, quindi dato un certo valore di X lo spread nella distribuzione delle Y è sempre lo stesso, come si può vedere dalla figura \ref{fig: regressione-omoschedastica}.
+\begin{figure}
+	\includegraphics[scale = 0.5]{Immagini/regressione-omoschedastica.png}
+\end{figure}
+ovvero $Var(\varepsilon \vert x_i) = \sigma^2$ e $E(y \vert x) = 0$. Se effettuiamo un plot dei residui in funzione di $x$ si ottiene un grafico di questo tipo:
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale = 0.5]{Immagini/residui-omoschedastici.png}
+	\caption{L'ampiezza intervallare dei residui non aumenta all'aumentare di $x$}
+\end{figure}
+Al contrario ci possono essere situazioni in cui il termine di errore varia tra le diverse variabili indipendenti, ottenendo così una situazione del genere:
+\begin{figure}
+	\centering
+	\includegraphics[scale = 0.5]{Immagini/residui-eteroschedastici.jpg}
+	\caption{Da questo grafico si vede come l'ampiezza dell'intervallo residuale aumenta all'aumentare di $y$.}
+	\label{fig: residui-eteroschedastici}
+\end{figure}
+Ovvero lo scatter plot dei residui nel caso di errori eteroschedastici, in funzione dei valori predetti per la variabile dipendente è caratterizzato da un tipico andamento a cono. Questo andamento è conseguenza del fatto che la varianza del termine di errore, stimato dai residui del modello, dato un certo alore di X non è più costane e in particolare ora dipende da X, come in figura \ref{fig: regressione-eteroschedastica}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale = 0.5]{Immagini/regressione-eteroschedastica.jpg}
+	\caption{In figura si può osservare come la varianza della distribuzione della Y abbia una varianza sempre maggiore all'aumentare del valore di x, quindi l'errore è eteroschedastico. Il concetto chiave comunque per l'errore eteroschedastico è che la sua varianza cambia in base al valore delle variabile indipendente.}
+	\label{fig: regressione-eteroschedastica}
+\end{figure}
+Un altro andamento anomalo del tipo in figura \ref{fig: residui-eteroschedastici} lo si può osservare in un semplice grafico scatter plot della variabile dipendente in funzione della variabile indipendente: nel caso di errori omoschedastici i punti sono collocati in modo equidistante dalla retta interpolante, mentre nel caso di errori eteroschedastici i punti sono distanziati in maniera diversa da questa. Il problema nel caso eteroschedastico si pone in quanto il metodo OLS dei minimi quadrati ordinari mira a minimizzare i residui ottenendo lo standard error minimo. Il metodo OLS pesa però tutte le osservazioni allo stesso modo, mentre quando si trattano errori eteroschedastici è necessario pesare meno i valori con più errore e pesare di più quelli che invece sono più rilevanti.\\
 Se utilizziamo ancora stimatori OLS cosa succede?\\
-Valgono ancora le ipotesi di correttezza e linearità.\\
-È ancora consistente.\\
-Non è più uno stimatore\\
-In 	questo caso lo stimatore non è più efficiente.
+$\rightarrow$ Gli stimatori OLS dei parametri sono ancora unbiased, consistenti e distribuiti in modo asintoticamente normale. \textit{Non} sono più stimatori \textit{efficienti} tra tutti gli stimatori possibili dei parametri che sono lineari e unbiased in $Y$, dato un certo valore di $X$. In generale quindi possiamo dire che non sono più BLUE (Best Linear Unbiased Estimator).
 
-La statistica t di Student non può approssimare nel modo corretto la varianza $\sigma^2$ per due ragioni:
+La statistica t di Student calcolata in base al valore della deviazione standard utilizzato nel metodo OLS, non risulta più distribuita in modo normale nemmeno per grandi campioni se l'errore è eteroschedastico. Questo avviene principalmente per due ragioni:
 \begin{enumerate}
-\item le stime campionare tendono a sottostimare il valore della varianza
-\item non c'è più da calcolare una sola varianza ma diverse varianze.
+\item Le stime campionare tendono a sottostimare il valore della varianza.
+\item Non c'è più da calcolare una sola varianza ma diverse varianze.
 \end{enumerate}
 
 Come conseguenza della sottostima della varianza si ha che la statistica t di Student ha valori erroneamente elevati, si possono considerare come significativi paramentri che in realtà non lo sono. Per lo stesso motivo la regione di accettazione diventa molto più piccola di quanto non lo sia in realtà e di conseguenza la regione di rifiuto molto grande.
 
-L'ipotesi di omoschedasticità (uguali varianze) è alla base di test come l'analisi della varianza ANOVA (Analysis Of Variance) e il t-test di Student.
+L'ipotesi di omoschedasticità (uguali varianze) è  infatti alla base di test come l'analisi della varianza ANOVA (Analysis Of Variance) e il t-test di Student.
+
+\begin{tcolorbox}[colback=cyan!5!white, colframe=cyan!75!black, title = ANOVA]
+	L'analisi della varianza ANOVA è utilizzata per testare differenze tra medie, utilizzando appunto le varianze. Quando le medie sono solamente due è indifferente utilizzare questo test oppure il t-test, mentre si deve usare necessariamente il test ANOVA quado le medie da testare sono più di due.\\
+	Dati quindi un insieme di campioni di cui sono stati calcolati media e varianza per ciascuno si può procedere a costruire il test ANOVA, come segue:
+	\begin{equation}
+	F = \frac{\sigma^2_{between}}{\sigma^2_{within}}
+	\label{eq: test ANOVA}
+	\end{equation}
+	dove $\sigma^2_{between}$ rappresenta la varianza tra gruppi, mentre $\sigma^2_{within}$ quella in gruppi.\\
+	La varianza $within$ in gruppi è la media delle varianze di ciascun campione pesata sul numero di gradi di libertà del campione, overo:
+	\begin{equation}
+	\sigma^2_{within} = \frac{1}{a(n-1)}\sum_{i=1}^{a}\sum_{j=1}^{n}(y_{ij} - \bar{y_i})^2
+	\end{equation}
+	in cui appunto la $i = 1 \cdots a$ identifica il campione e $j = 1 \cdots n$ identifica invece il numero di osservazione che si sta prendendo in considerazione. Quindi si somma prima su $j$ per calcolare le varianze del campione che si sta considerando, e poi si somma su $j$ per fare la media delle varianze dei campioni, dividendo poi per il peso del campione pari a $n-1$, dove $n$ è il numero delle osservazioni fatte per campione. \\
+	La varianza $between$ tra gruppi invece è calcolata a partire dalla devianza totale che è la varianza stimata con tutte le osservazioni di tutti i campioni ovvero come se le varie osservazioni dei vari campioni appartenessero tutte ad un unico campione. A questo punto la varianza tra gruppi si ottiene moltiplicando questa per $n$, ovvero:
+	\begin{equation}
+	\sigma^2_{between} = \frac{n}{a-1}\sum_{i=1}^{a} (\bar{y_i} - \bar{\bar{y}})
+	\end{equation}
+	dove $\bar{\bar{y}}$ rappresenta appunto la media ottenuta considerando le osservazioni di tutti i campioni, mentre le $\bar{y}_i$ sono le medie dei singoli campioni.
+	
+	Si può quindi a questo punto effettuare il test in \eqref{eq: test ANOVA}. Poichè le due varianze rapportate sono stime di una stessa varianza parametrica (quella della distribuzione vera se si conoscesse tutta la popolazione), allora questo rapporto deve essere uguale a 1 in teoria. Se però i campioni provengono da popolazioni diverse si ottiene un valore al numeratore più grande rispetto al denominatore, risultando così in un numero maggiore di 1.\\
+	Per ogni combinazione di gradi di libertà di numeratore e denominatore, si confronta il valore ottenuto con la distribuzione di una variabile casuale distribuita come una F di Sendecor con pari gradi di libertà. Stabilendo il livello di confidenza, si confronta con il valore tabulato della $F$ e si decide se confermare l'ipotesi nulla, cioè che le medie provengono tutte da una stessa distribuzione, oppure se rigettarla, affermando quindi che almeno una non appartiene alla distribuzione delle altre.
+	
+	[ref:http://docenti.unimc.it/monica.raiteri/teaching/2013/12316/files/slides-i-parte-per-studenti-frequentanti/interpretazione-del-test-f-distribuzione-f-di]
+\end{tcolorbox}
 
 Oltre alla visualizzazione grafiche, l'eteroschedasticità si può individuare anche tramite metodi analitici, ovvero eseguendo dei test come il \textit{test di White} o il \textit{test di Breuch-Pagan}.
+\subsubsection{Test di White}
+
+
+\subsubsection{Test di Breusch-Pagan}
 
 
 
