@@ -647,7 +647,75 @@ La statistica di DW è centrata su 2 ed è sempre compresa tra 0 e 4. Nel caso i
 Non si conosce la distribuzione teorica di questa statistica, comunque esistono dei valori tabulati in base al numero di regressori, il numero di osservazioni e livello di significatività con cui si vuole valutare l'ipotesi nulla, con in quali è possibile individuare dei valori critici $d_l$ e $d_u$ che delimitino le regioni di rifiuto e di accettazione. Se il valore che si trova dalla statistica in \eqref{eq: DW test} è $d < d_l$ allora si può concludere che c'è autocorrelazione positiva, se $d > d_u$ allora si può concludere che c'è autocorrelazione negativa, mentre se $d$ è compreso tra questi due valori allora non c'è sufficiente evidenza per concludere che ci sia autocorrelazione tra i residui. Convenzionalmente, nel caso in cui i valori di $d_l$ e $d_u$ non vengano specificati si fissa $d_l = 1$ e $d_u = 3$.
 
 \section{WLS e GLS}
+Per tenere conto di eteroschedasticità e correlazione nei residui si possono applicare due metodi: il metodo dei minimi quadrati pesati WLS e il metodo dei minimi quadrati generalizzati GLS.
+\subsection{Il metodo WLS}
+Per tenere conto dell'eteroschedasticità, e fare in modo che i valori stimati dei parametri $\hat{\beta}$ siano ancora gli stimatori migliori, è stato dimostrato che tali stimatori risultano ancora i migliori se si minimizza una somma pesata dei residui dove i pesi sono il reciproco dello scarto quadratico medio per i valori previsti, ovvero:
+\begin{equation}
+S = \sum_{i=1}^{n} \sqrt{W_{ii}} r_i^2 \quad \text{dove}\quad W_{ii} = \frac{1}{\sigma_i^2} 
+\label{eq: somma-gls}
+\end{equation}
+per poi procedere con la minimizzazione come nel caso OLS. \\
+Alternativamente al posto di definire la \eqref{eq: somma-gls} si può effettuare un cambiamento di variabili per il modello lineare classico, ovvero passare da:
+\begin{equation}
+Y = X\beta + \varepsilon^\star
+\label{eq: regressione-lineare-eterosched}
+\end{equation} 
+dove $\varepsilon^\star$ indica l'errore eteroschedastico, a:
+\begin{equation}
+Y^\star = X^\star\beta + \varepsilon
+\end{equation}
+dove:
+\begin{equation}
+\begin{split}
+Y^\star &= \frac{Y}{\sqrt{W_{ii}}} \\
+X^\star &= \frac{X}{\sqrt{W_{ii}}} \\
+\end{split}
+\end{equation}
+ovvero si dividono entrambi i membri dell'equazione OLS per $W_{ii}$ e poi si procede con il metodo dei minimi quadrati ordinari. Questa volta l'errore risulta omoschedastico, in quanto abbiamo diviso per la devianza standard della media anche la parte di errore, quindi la diagonale della matrice di correlazione REFF A UNA MATRICE PRECEDENTE DI CORRELAZIONE DEI RESIDUI NEL CASO DI ERRORI ETEROSCHED (FARLA NEL CASO MANCHI) dei residui non è più composta da termini tutti diversi tra loro ma saranno tutti uguali e costanti.
+\subsection{Il metodo GLS}
+Anche il metodo GLS, di cui il metodo WLS è un caso particolare, si basa su una trasformazione di variabili.
 
+Data la matrice di varianza e covarianza per gli errori del modello lineare classico, caratterizzata, nel caso di errori omoschedastici ma correlati, da una diagonale tutta uguale e con termini diversi da zero fuori dalla diagonale, si supponga che esista una matrice $V$ tale che:
+\begin{equation}
+	\Sigma_{\varepsilon^\circ} = V \sigma^2 V^t
+	\label{eq: matrice-GLS}
+\end{equation}
+o analogamente:
+\begin{equation}
+	\Sigma_{\varepsilon^\circ}^{-1} = (V)^{-1} \frac{1}{\sigma^2} (V^t)^{-1}
+\end{equation}
+dove si è usata la notazione $\varepsilon^\circ$ per indicare che gli errori sono correlati.\\
+Si possono definire gli errori trasformati, fatti nel seguente modo:
+\begin{equation}
+	\varepsilon = V^{-1} \varepsilon^\circ
+\end{equation}
+poichè vale la \eqref{eq: matrice-GLS}, allora si ottiene:
+\begin{equation}
+\Sigma_\varepsilon = VV^{-1} \sigma^2 (V^t)^{-1}V^t = \sigma^2 \cdot I_n
+\end{equation}
+A questo punto se passiamo sin da subito a delle variabili trasformate nel modello, moltiplicando a entrambi i membri l'equazione del modello lineare classico in \eqref{eq: regressione-lineare-eterosched}, considerando di avere questa volta errori autocorrelati omoschedastici, per $V^{-1}$, si può applicare il metodo OLS classico per ottenere i parametri.
+
+La matrice $V$ si può ottenere tramite decomposizione spettrale della matrice $\Sigma_\varepsilon$ di correlazione degli errori.
+
+Lo stimatore GLS che si calcola in questo modo assegna un peso maggiore alle variabili caratterizzate da una minore varianza e quindi da considerarsi più attendibili. Inoltre lo stimatore è consistente, corretto (unbiased) e per il terorema di Aitken (analogo al Gauss-Markov per gli OLS) si dimostra che è anche efficiente.
+
+\subsubsection{Procedimento}
+Prima di procedere alla costruzione delle stime GLS,  si deve stimare il l'errore autocorrelato e i vari livelli di autocorrelazione. A questo scopo si costruisce un modello di regressione che spiega l'errore $\varepsilon_i$ per l'osservazione i-esima in termini delle variabili esplicative e del residuo ritardato $\varepsilon_{i-1}$, ovvero:
+\begin{equation}
+	\varepsilon^\circ = a_0 + a_1x_1 + \cdots + a_n x_n + a_\varepsilon \varepsilon_{i-1}^\circ
+\end{equation}
+Il coefficiente di regressione $a_\varepsilon$ che si ottiene rappresenta una stima per il coefficiente $\rho$ di autocorrelazione al primo ordine.
+
+COSA DEL SOTTRARRE (slide 78-79 violazione errori.pptx)
+
+Alternativamente a questo metodo si può utilizzare un metodo autoregressivo che introduce tre le variabili esplicative anche un termine di errore ritardato che tenga conto dell'autocorrelazione al primo ordine. Se ci sono correlazioni anche a ordini successivi si introducono tante variabili esplicative che ne tengano conto in un numero pari agli ordini che si considerano.
+
+\subsection{Il metodo FLGS}
+Il problema del metodo GLS è che si basa su una conoscenza perfetta della matrice $\Sigma_\varepsilon$ che però non sempre è nota, per questo si usa il metodo FGLS che si basa sulla matrice di varianza e covarianza campionaria. Gli stimatori che si calcolano con il FGLS sono consistenti nel senso che per $N \rightarrow +\infty \; \Rightarrow \; S_\varepsilon \rightarrow \Sigma_\varepsilon$, dove $S_\varepsilon$ indica la matrice di varianza e covarianza per gli errori campionaria.
+
+
+\textit{Oss.}\\
+Poichè il WLS è un caso particolare del GLS, tutte le procedure che si usano nel GLS si possono adottare anche nel WLS.
 
 
 
