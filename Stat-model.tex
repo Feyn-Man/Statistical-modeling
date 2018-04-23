@@ -4,6 +4,7 @@
 \usepackage{dsfont}
 \usepackage{graphicx}
 \usepackage{ifxetex,ifluatex}
+\usepackage{bm}
 \usepackage{fixltx2e} % provides \textsubscript
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
@@ -158,16 +159,63 @@ ai dati), poi test statistici sulla significatività. Se la verifica non
 conduce ad un rifiuto del modello stimato allora lo si utilizza
 altrimenti si torna alla fase di specificazione.
 
-\section{Regressione multipla}\label{regressione-multipla}
+\section{Modello Lineare Classico}\label{modello-lineare-classico}
+Il modo più generale per esprimere una legge di regressione lineare secondo il modello classico è:
 
-Può essere espressa in termini matriciali. È costruita a partire dal
-vettore delle x e dal vettore delle y. La prima colonna è composta da 1, in quanto è quella che va a moltiplicarsi ai parametri da stimare e all'intercetta ignota $b_{10}$. La situazione è quindi la seguente:
+\begin{equation}
+\underline{Y} = \doubleunderline{X} \cdot \underline{b} + \underline{\varepsilon}
+\end{equation}
+con
+\begin{equation}
+\underline{Y} = 
+\begin{pmatrix}
+y_1 \\ 
+. \\ 
+. \\ 
+. \\ 
+y_n
+\end{pmatrix}
+\quad
+\doubleunderline{X} = \begin{pmatrix}
+x_{1,1} & x_{1,2} & \dots & x_{1,k} \\ 
+x_{2,1} & \dots & \dots &  \\ 
+\vdots &  & \ddots & \vdots \\ 
+x_{n,1} & \dots &  & x_{n,k}
+\end{pmatrix} 
+\quad
+\underline{b} = \begin{pmatrix}
+b_0 \\ 
+. \\ 
+. \\ 
+. \\ 
+b_n
+\end{pmatrix} 
+\quad
+\underline{\varepsilon} = \begin{pmatrix}
+\varepsilon_0 \\ 
+. \\ 
+. \\ 
+. \\ 
+\varepsilon_n
+\end{pmatrix} 
+\end{equation}
+dove $\underline{b}$ rappresenta il vettore dei regressori, mentre $\underline{\varepsilon}$ quello degli errori per ciascuna osservazione. Questo modello si basa su alcune ipotesi che analizziamo di seguito.
 
-RIVEDERE E COMPLETARE
+\subsection{Ipotesi di Linearità}
+Secondo questa ipotesi, sia le variabili esplicative del modello (i valori della matrice $\doubleunderline{X}$) sia i parametri $\underline{b}$ sono lineari.
 
-dove appunto $b$ è il vettore dei parametri ignoti da stimare, mentre $\varepsilon$ il vettore degli errori casuali non osservabili. $b_0$ è l'intercetta, mentre gli altri termini del vettore $b$ sono  detti \textit{coefficienti di regressione}.  Gli $x_1 \dots x_n$ sono invece detti \textit{regressori}.
+\subsection{Ipotesi di Non Sistematicità degli Errori}
+Quest'ipotesi sostiene che la distribuzione di probabilità condizionata di ogni errore $\varepsilon_i$ dato il corrispondente vettore delle variabili esplicative $\underline{X}_i$ è centrata in zero, cioè:
+\begin{equation}
+E\left(\varepsilon_i|\underline{X}_i\right) = 0
+\end{equation}
+Di conseguenza la distribuzione della variabile dipendente è data da:
+\begin{equation}
+E\left(\underline{y}|\doubleunderline{X}\right) = \doubleunderline{X}\ \underline{b}
+\end{equation}
 
-L'errore $\varepsilon$ è uno scalare che rappresenta tutti i fattori \textit{rilevabili} e \textit{non rilevabili} e può essere positivo o negativo. \underline{Non} dipende dai valori dei regressori. Inoltre valgono le seguenti ipotesi:
+\subsection{Ipotesi di Sfericità degli Errori}
+Per quest'ipotesi valgono le seguenti:
 \begin{enumerate}
 \item Ipotesi di \textbf{omoschedasticità}, ovvero la  variabilità  dell'effetto  di  tutti  i  fattori  non  rilevati  e/o  non  rilevabili  non  dipende  dai 
 valori dei regressori. Quindi:
@@ -186,50 +234,63 @@ dove $\varepsilon_i$ e $\varepsilon_j$ sono appunto il valore delle variabili al
 \end{enumerate}
 
 A questo punto se abbiamo tante osservazioni la situazione diventa la seguente:
-\begin{equation}
-\doubleunderline{Y} = \doubleunderline{X} \cdot \underline{b} + \underline{\varepsilon}
-\end{equation}
-con
-\begin{equation}
-Y = 
-\begin{pmatrix}
-y_1 \\ 
-. \\ 
-. \\ 
-. \\ 
-y_n
-\end{pmatrix}
-\quad
-X = \begin{pmatrix}
-x_{1,1} & x_{1,2} & \dots & x_{1,k} \\ 
-x_{2,1} & \dots & \dots &  \\ 
-\vdots &  & \ddots & \vdots \\ 
-x_{n,1} & \dots &  & x_{n,k}
-\end{pmatrix} 
-\quad
-b = \begin{pmatrix}
-b_0 \\ 
-. \\ 
-. \\ 
-. \\ 
-b_n
-\end{pmatrix} 
-\quad
-\epsilon = \begin{pmatrix}
-\varepsilon_0 \\ 
-. \\ 
-. \\ 
-. \\ 
-\varepsilon_n
-\end{pmatrix} 
-\end{equation}
-dove $\underline{b}$ rappresenta il vettore dei regressori, mentre $\underline{\varepsilon}$ quello degli errori per ciascuna osservazione.\\
+
 Le condizioni ipotizzate prima sulle singole osservazioni del modello continuano a valere e possono essere riscritte in maniera più compatta come segue:
 \begin{enumerate}
 \item E($\underline{\varepsilon}$) = 0
 \item V($\underline{\varepsilon}$) = E($\underline{\varepsilon}$, $\underline{\varepsilon'}$) = $\doubleunderline{\Sigma}$ = $\sigma^2 \mathds{1}_n$ 
 \end{enumerate}
-La seconda condizione in particolare prende il nome di \textbf{ipotesi di sfericità degli errori} che include il fatto che gli errori sono omoschedastici e incorrelati tra loro (E indica il valore atteso).
+
+
+\subsection{Ipotesi di Non Stocasticità delle Variabili Esplicative}
+Si suppone che i valori delle variabili esplicative $\underline{x}_j$ siano fissi e non soggetti a fluttuazioni stocastiche. Di conseguenza vale:
+\begin{equation}
+ E(\doubleunderline{X}) = \doubleunderline{X}
+\end{equation}
+Ossia il valore di aspettazione della matrice delle covariate è la matrice stessa. Inoltre la correlazione tra questa e il vettore degli errori è nulla, cioè:
+\begin{equation}
+ cov(\doubleunderline{X},\underline{\varepsilon}) = 0
+\end{equation}
+
+\subsection{Ipotesi di Non Collinearità delle Variabili Esplicative}
+I vettori delle variabili esplicative contenuti nella matrice $\doubleunderline{X}$ sono linearmente indipendenti. La matrice $\doubleunderline{X}$ ha rango pieno, pari al numero delle covariate più uno dovuto al vettore costante, cioè:
+\begin{equation}
+ Rank(\doubleunderline{X}) = p + 1
+\end{equation}
+Di conseguenza, la matrice ha determinante non nullo, è invertibile e il prodotto $\doubleunderline{X}\cdot\doubleunderline{X}^T$ è definito.
+
+\subsection{Ipotesi sulla Numerosità della popolazione}
+Si suppone che il numero di eventi nel campione sia maggiore della numero di covariate (più uno a causa del vettore costante):
+\begin{equation}
+ n > p + 1
+\end{equation}
+Questo garantisce che la matrice $\doubleunderline{X} \cdot \doubleunderline{X}^T$ abbia un'unica inversa, dunque la soluzione al problema di regressione sia unica.
+
+
+\section{Estimatori}
+
+Un'estimatore è una funzione da applicare su un certo campione di dati preso in maniera casuale dalla popolazione. La stima è il valore numerico che l'estimatore assume quando viene calcolato sul set. Ogni estimatore può essere classificato sulla base di tre criteri.
+
+\subsection{Correttezza (Unbiasedness)}
+Lo stimatore può essere applicato su diversi campioni casuali. Perchè sia un buon estimatore, ci si aspetta che la distribuzione dei suoi valori sia centrata sulla stima esatta che avrebbe sulla popolazione, cioè:
+\begin{equation}
+ E(\hat{\mu}_Y) = \mu_Y
+\end{equation}
+
+dove $Y$ è la popolazione considerata, $\hat{\mu}_Y$ è l'estimatore applicato su un campione e $\mu_Y$ è l'estimatore applicato alla popolazione. Se un'estimatore possiede questa proprietà è detto corretto o unbiased, altrimento è detto scorretto o biased.
+
+\subsection{Consistenza (Consistency)}
+Un' estimatore è detto consistente se all'aumentare della dimensione del campione su cui viene applicato, questo tende ad assumere il valore vero. Ciò si può scrivere come:
+\begin{equation}
+	\hat{\mu}_Y \xrightarrow{p} \mu_Y
+\end{equation}
+
+\subsection{Efficienza (Efficiency)}
+Siano $\tilde{\mu}_Y$ e $\hat{\mu}_Y$ due estimatori della stessa quantità $\mu_Y$, entrambi corretti. Il criterio dell'efficienza dice che per scegliere quale estimatore tra i due sia migliore, si guarda alla larghezza della loro distribuzione (cioè alla loro varianza): l'estimatore con varianza minore è quello più efficiente, cioè:
+\begin{equation}
+ var(\hat{\mu}_Y) < var(\tilde{\mu}_Y)
+\end{equation}
+\section{Metodo dei Minimi Quadrati}
 
 
 Come metodo di stima dei parametri $b$ si può utilizzare il \textit{metodo dei minimi quadrati}.
@@ -283,11 +344,10 @@ Il problema si può anche vedere dal punto di vista geometrico. Possiamo infatti
 \sum_{i=1}^k (y_i - \doubleunderline{X} \cdot \underline{b})^2 = \| y_i - \doubleunderline{X} \cdot \underline{b} \|^2
 \end{equation}
 Chiamiamo $\mu = \doubleunderline{X} \cdot b$ il nostro vettore dei valori fittati (i valori teorici previsti) che corrisponde ad un vettore nello spazio delle colonne di $\doubleunderline{X}$ . Questo vettore $\mu$ rappresenta anche l'unica proiezione di $\underline{y}$ su $\doubleunderline{X}$. La distanza tra $\underline{y}$ e $\mu$ è un vettore ortogonale (vettore dei residui) allo spazio $\doubleunderline{X}$ e il metodo dei minimi quadrati ha lo scopo di minimizzare questo vettore. Se la dimensione dello spazio delle colonne è esattamente uguale al numero di variabili esplicative allora la soluzione è unica.
-\begin{figure}
+%\begin{figure}
 %\includegraphics[scale=0.4]{Immagini/spazio-col.png}
-\caption{Rappresentazione dello spazio delle colonne e dei vettori di interesse.}
-\end{figure}
-
+%\caption{Rappresentazione dello spazio delle colonne e dei vettori di interesse.}
+%\end{figure}
 La bontà di adattamento si stima in base a \textit{devianza totale} e
 \textit{devianza spiegata}.\\
 La \textit{devianza spiegata} è la somma delle differenze al quadrato tra i valori teorici della retta interpolante e la media dei valori empirici.\\
@@ -497,43 +557,39 @@ nei software è spesso anche possibile impostare una soglia per la probabilità 
 
 \subsection{Eteroschedasticità}
 L'ipotesi di omoschedasticità suppone che il termine di errore sia uguale per tutte le variabili indipendenti, quindi dato un certo valore di X lo spread nella distribuzione delle Y è sempre lo stesso, come si può vedere dalla figura \ref{fig: regressione-omoschedastica}.
-\begin{figure}
-	\includegraphics[scale = 0.5]{Immagini/regressione-omoschedastica.png}
-\end{figure}
+%\begin{figure}
+%	\includegraphics[scale = 0.5]{Immagini/regressione-omoschedastica.png}
+%\end{figure}
 ovvero $Var(\varepsilon \vert x_i) = \sigma^2$ e $E(y \vert x) = 0$. Se effettuiamo un plot dei residui in funzione di $x$ si ottiene un grafico di questo tipo:
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale = 0.5]{Immagini/residui-omoschedastici.png}
-	\caption{L'ampiezza intervallare dei residui non aumenta all'aumentare di $x$}
-\end{figure}
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[scale = 0.5]{Immagini/residui-omoschedastici.png}
+%	\caption{L'ampiezza intervallare dei residui non aumenta all'aumentare di $x$}
+%\end{figure}
 Al contrario ci possono essere situazioni in cui il termine di errore varia tra le diverse variabili indipendenti, ottenendo così una situazione del genere:
-\begin{figure}
-	\centering
-	\includegraphics[scale = 0.5]{Immagini/residui-eteroschedastici.jpg}
-	\caption{Da questo grafico si vede come l'ampiezza dell'intervallo residuale aumenta all'aumentare di $y$.}
-	\label{fig: residui-eteroschedastici}
-\end{figure}
+%\begin{figure}
+%	\centering
+%	\includegraphics[scale = 0.5]{Immagini/residui-eteroschedastici.jpg}
+%	\caption{Da questo grafico si vede come l'ampiezza dell'intervallo residuale aumenta all'aumentare di $y$.}
+%	\label{fig: residui-eteroschedastici}
+%\end{figure}
 Ovvero lo scatter plot dei residui nel caso di errori eteroschedastici, in funzione dei valori predetti per la variabile dipendente è caratterizzato da un tipico andamento a cono. Questo andamento è conseguenza del fatto che la varianza del termine di errore, stimato dai residui del modello, dato un certo alore di X non è più costane e in particolare ora dipende da X, come in figura \ref{fig: regressione-eteroschedastica}.
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale = 0.5]{Immagini/regressione-eteroschedastica.jpg}
-	\caption{In figura si può osservare come la varianza della distribuzione della Y abbia una varianza sempre maggiore all'aumentare del valore di x, quindi l'errore è eteroschedastico. Il concetto chiave comunque per l'errore eteroschedastico è che la sua varianza cambia in base al valore delle variabile indipendente.}
-	\label{fig: regressione-eteroschedastica}
-\end{figure}
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[scale = 0.5]{Immagini/regressione-eteroschedastica.jpg}
+%	\caption{In figura si può osservare come la varianza della distribuzione della Y abbia una varianza sempre maggiore all'aumentare del valore di x, quindi l'errore è eteroschedastico. Il concetto chiave comunque per l'errore %eteroschedastico è che la sua varianza cambia in base al valore delle variabile indipendente.}
+%	\label{fig: regressione-eteroschedastica}
+%\end{figure}
 Un altro andamento anomalo del tipo in figura \ref{fig: residui-eteroschedastici} lo si può osservare in un semplice grafico scatter plot della variabile dipendente in funzione della variabile indipendente: nel caso di errori omoschedastici i punti sono collocati in modo equidistante dalla retta interpolante, mentre nel caso di errori eteroschedastici i punti sono distanziati in maniera diversa da questa. Il problema nel caso eteroschedastico si pone in quanto il metodo OLS dei minimi quadrati ordinari mira a minimizzare i residui ottenendo lo standard error minimo. Il metodo OLS pesa però tutte le osservazioni allo stesso modo, mentre quando si trattano errori eteroschedastici è necessario pesare meno i valori con più errore e pesare di più quelli che invece sono più rilevanti.\\
 Se utilizziamo ancora stimatori OLS cosa succede?\\
 $\rightarrow$ Gli stimatori OLS dei parametri sono ancora unbiased, consistenti e distribuiti in modo asintoticamente normale. \textit{Non} sono più stimatori \textit{efficienti} tra tutti gli stimatori possibili dei parametri che sono lineari e unbiased in $Y$, dato un certo valore di $X$. In generale quindi possiamo dire che non sono più BLUE (Best Linear Unbiased Estimator).
-
 La statistica t di Student calcolata in base al valore della deviazione standard utilizzato nel metodo OLS, non risulta più distribuita in modo normale nemmeno per grandi campioni se l'errore è eteroschedastico. Questo avviene principalmente per due ragioni:
 \begin{enumerate}
 \item Le stime campionare tendono a sottostimare il valore della varianza.
 \item Non c'è più da calcolare una sola varianza ma diverse varianze.
 \end{enumerate}
-
 Come conseguenza della sottostima della varianza si ha che la statistica t di Student ha valori erroneamente elevati, si possono considerare come significativi paramentri che in realtà non lo sono. Per lo stesso motivo la regione di accettazione diventa molto più piccola di quanto non lo sia in realtà e di conseguenza la regione di rifiuto molto grande.
-
 L'ipotesi di omoschedasticità (uguali varianze) è  infatti alla base di test come l'analisi della varianza ANOVA (Analysis Of Variance) e il t-test di Student.
-
 \begin{tcolorbox}[colback=cyan!5!white, colframe=cyan!75!black, title = ANOVA]
 	L'analisi della varianza ANOVA è utilizzata per testare differenze tra medie, utilizzando appunto le varianze. Quando le medie sono solamente due è indifferente utilizzare questo test oppure il t-test, mentre si deve usare necessariamente il test ANOVA quado le medie da testare sono più di due.\\
 	Dati quindi un insieme di campioni di cui sono stati calcolati media e varianza per ciascuno si può procedere a costruire il test ANOVA, come segue:
@@ -551,14 +607,11 @@ L'ipotesi di omoschedasticità (uguali varianze) è  infatti alla base di test c
 	\begin{equation}
 	\sigma^2_{between} = \frac{n}{a-1}\sum_{i=1}^{a} (\bar{y_i} - \bar{\bar{y}})
 	\end{equation}
-	dove $\bar{\bar{y}}$ rappresenta appunto la media ottenuta considerando le osservazioni di tutti i campioni, mentre le $\bar{y}_i$ sono le medie dei singoli campioni.
-	
+	dove $\bar{\bar{y}}$ rappresenta appunto la media ottenuta considerando le osservazioni di tutti i campioni, mentre le $\bar{y}_i$ sono le medie dei singoli campioni.	
 	Si può quindi a questo punto effettuare il test in \eqref{eq: test ANOVA}. Poichè le due varianze rapportate sono stime di una stessa varianza parametrica (quella della distribuzione vera se si conoscesse tutta la popolazione), allora questo rapporto deve essere uguale a 1 in teoria. Se però i campioni provengono da popolazioni diverse si ottiene un valore al numeratore più grande rispetto al denominatore, risultando così in un numero maggiore di 1.\\
-	Per ogni combinazione di gradi di libertà di numeratore e denominatore, si confronta il valore ottenuto con la distribuzione di una variabile casuale distribuita come una F di Sendecor con pari gradi di libertà. Stabilendo il livello di confidenza, si confronta con il valore tabulato della $F$ e si decide se confermare l'ipotesi nulla, cioè che le medie provengono tutte da una stessa distribuzione, oppure se rigettarla, affermando quindi che almeno una non appartiene alla distribuzione delle altre.
-	
+	Per ogni combinazione di gradi di libertà di numeratore e denominatore, si confronta il valore ottenuto con la distribuzione di una variabile casuale distribuita come una F di Sendecor con pari gradi di libertà. Stabilendo il livello di confidenza, si confronta con il valore tabulato della $F$ e si decide se confermare l'ipotesi nulla, cioè che le medie provengono tutte da una stessa distribuzione, oppure se rigettarla, affermando quindi che almeno una non appartiene alla distribuzione delle altre.	
 	[ref:http://docenti.unimc.it/monica.raiteri/teaching/2013/12316/files/slides-i-parte-per-studenti-frequentanti/interpretazione-del-test-f-distribuzione-f-di]
 \end{tcolorbox}
-
 Oltre alla visualizzazione grafiche, l'eteroschedasticità si può individuare anche tramite metodi analitici, ovvero eseguendo dei test come il \textit{test di White} o il \textit{test di Breuch-Pagan}.
 \subsubsection{Test di White}
 Il test di White testa l'ipotesi nulla di omoschedasticità degli errori:
@@ -590,10 +643,7 @@ Il test di Breuch Pagan a differenza del test di White ipotizza che l'eterosched
 \begin{equation}
 	\hat{\epsilon}_i^2 = \delta_0 + \delta_1\hat{Y}_i
 \end{equation}
-
-
 CHIEDERE..
-
 \subsection{Autocorrelazione}
 A volte è possibile che gli errori (e quindi i residui) siano correlati tra loro, soprattutto in serie storiche o territoriali è ragionevole ipotizzare che ci sia correlazione tra gli errori che vengono stimati in momenti successivi o territori vicini.\\
 Nel modello lineare classico si suppone che:
@@ -610,19 +660,15 @@ Quando ciò non si verifica si dice che gli erroi sono correlati o che si è in 
 	\end{pmatrix} 
 \end{equation}
 dove i vari $\rho$ rappresentano i termini di correlazione dei vari termini di errore tra loro. La matrice ovviamente risulta simmetrica.
-
 L'errore può essere correlato con quello dell'osservazione immediatamente precedente e quindi avere una correlazione di primo livello, oppure ci può essere una correlazione di secondo livello o livello maggiore se gli errori correlati sono distanti due o più osservazioni. Ciò è espresso con la seguente formula:
 \begin{equation}
 	\varepsilon'_i = \varepsilon'_{i-1} + \eta_j
 \end{equation}
 dove si è utilizzata la notazione primata per identificare il fatto che gli errori sono correlati tra loro e non sono più sferici. Gli $\eta_j$ sono invece identicamente e indipendentemente distribuiti in modo normale con $N(0,\sigma_i)$ per rappresentare quindi la parte di correlazione dell'errore con sè stesso (la diagonale della matrice).\\
 Si ha autocorrelazione \textit{positiva} quando residui consecutivi tendono ad essere dello stesso segno e simili in valore, \textit{negativa} quando invece residui consecutivi sono di segno differente.
-
 IMMAGINI AUTOCORRELAIZONE POSITIVA E NEGATIVA
-
 In caso di autocorrelazione gli stimatori OLS  dei parametri per la regressione lineare sono ancora lineari e corretti (unbiased) ma non sono più i migliori stimatori possibili, quindi non sono più BLUE, ovvero esistono altri stimatori che risultano più efficienti. come conseguenza di ciò non si potrà più usare la varianza campionaria nella statistica $t$ perchè non potrà più approssimare la varianza vera in quanto la $t$ è costruita supponendo l'incorrelazione degli errori nella popolazione e il valore atteso della varianza campionaria non stima correttamente la varianza vera. Di conseguenza la statistica $t$ assume valori erroneamente elevati, considerando significativi parametri quando in realtà non lo sono, ovvero si amplia la regione di rifiuto per l'ipotesi nulla con il conseguente restringimento della regione di accettazione. \\
 Ragionamenti analoghi si possono fare per il test F, che corrisponde semplicemente al quadrato del t test.
-
 \subsubsection{Individuazione grafica}
 Si può notare un autocorrelazione nei reisui osservando:
 \begin{enumerate}
@@ -631,7 +677,6 @@ Si può notare un autocorrelazione nei reisui osservando:
 	\item Residui in funzione dei residui ritardati
 	\item Correlogramma, permette di identificare chiaramente quali sono i gradi di correlazione che influiscono di più. Solitamente nei correlogramma è mostrata anche una banda di confidenza che indica il limite entro il quale non si ritiene che vi sia autocorrelazione. Se il coefficiente di autocorrelazione che si sta valutando esce da questa banda allora si è in presenza di autocorrelazione.
 \end{enumerate}
-
 \subsubsection{Test di Durbin-Watson}
 Il test di Durbin-Watson verifica l'ipotesi nulla:
 \begin{equation}
@@ -645,7 +690,6 @@ DW = \frac{\sum_{i}(\varepsilon'_i - \varepsilon'_{i-1})^2}{\sum_{i} \varepsilon
 \end{equation}
 La statistica di DW è centrata su 2 ed è sempre compresa tra 0 e 4. Nel caso in cui i residui siano correlati positivamente tende a 0, mentre nel caso in cui siano correlati negativamente tende a 4.\\
 Non si conosce la distribuzione teorica di questa statistica, comunque esistono dei valori tabulati in base al numero di regressori, il numero di osservazioni e livello di significatività con cui si vuole valutare l'ipotesi nulla, con in quali è possibile individuare dei valori critici $d_l$ e $d_u$ che delimitino le regioni di rifiuto e di accettazione. Se il valore che si trova dalla statistica in \eqref{eq: DW test} è $d < d_l$ allora si può concludere che c'è autocorrelazione positiva, se $d > d_u$ allora si può concludere che c'è autocorrelazione negativa, mentre se $d$ è compreso tra questi due valori allora non c'è sufficiente evidenza per concludere che ci sia autocorrelazione tra i residui. Convenzionalmente, nel caso in cui i valori di $d_l$ e $d_u$ non vengano specificati si fissa $d_l = 1$ e $d_u = 3$.
-
 \section{WLS e GLS}
 Per tenere conto di eteroschedasticità e correlazione nei residui si possono applicare due metodi: il metodo dei minimi quadrati pesati WLS e il metodo dei minimi quadrati generalizzati GLS.
 \subsection{Il metodo WLS}
@@ -674,7 +718,6 @@ X^\star &= \frac{X}{\sqrt{W_{ii}}} \\
 ovvero si dividono entrambi i membri dell'equazione OLS per $W_{ii}$ e poi si procede con il metodo dei minimi quadrati ordinari. Questa volta l'errore risulta omoschedastico, in quanto abbiamo diviso per la devianza standard della media anche la parte di errore, quindi la diagonale della matrice di correlazione REFF A UNA MATRICE PRECEDENTE DI CORRELAZIONE DEI RESIDUI NEL CASO DI ERRORI ETEROSCHED (FARLA NEL CASO MANCHI) dei residui non è più composta da termini tutti diversi tra loro ma saranno tutti uguali e costanti.
 \subsection{Il metodo GLS}
 Anche il metodo GLS, di cui il metodo WLS è un caso particolare, si basa su una trasformazione di variabili.
-
 Data la matrice di varianza e covarianza per gli errori del modello lineare classico, caratterizzata, nel caso di errori omoschedastici ma correlati, da una diagonale tutta uguale e con termini diversi da zero fuori dalla diagonale, si supponga che esista una matrice $V$ tale che:
 \begin{equation}
 	\Sigma_{\varepsilon^\circ} = V \sigma^2 V^t
@@ -694,29 +737,18 @@ poichè vale la \eqref{eq: matrice-GLS}, allora si ottiene:
 \Sigma_\varepsilon = VV^{-1} \sigma^2 (V^t)^{-1}V^t = \sigma^2 \cdot I_n
 \end{equation}
 A questo punto se passiamo sin da subito a delle variabili trasformate nel modello, moltiplicando a entrambi i membri l'equazione del modello lineare classico in \eqref{eq: regressione-lineare-eterosched}, considerando di avere questa volta errori autocorrelati omoschedastici, per $V^{-1}$, si può applicare il metodo OLS classico per ottenere i parametri.
-
 La matrice $V$ si può ottenere tramite decomposizione spettrale della matrice $\Sigma_\varepsilon$ di correlazione degli errori.
-
 Lo stimatore GLS che si calcola in questo modo assegna un peso maggiore alle variabili caratterizzate da una minore varianza e quindi da considerarsi più attendibili. Inoltre lo stimatore è consistente, corretto (unbiased) e per il terorema di Aitken (analogo al Gauss-Markov per gli OLS) si dimostra che è anche efficiente.
-
 \subsubsection{Procedimento}
 Prima di procedere alla costruzione delle stime GLS,  si deve stimare il l'errore autocorrelato e i vari livelli di autocorrelazione. A questo scopo si costruisce un modello di regressione che spiega l'errore $\varepsilon_i$ per l'osservazione i-esima in termini delle variabili esplicative e del residuo ritardato $\varepsilon_{i-1}$, ovvero:
 \begin{equation}
 	\varepsilon^\circ = a_0 + a_1x_1 + \cdots + a_n x_n + a_\varepsilon \varepsilon_{i-1}^\circ
 \end{equation}
 Il coefficiente di regressione $a_\varepsilon$ che si ottiene rappresenta una stima per il coefficiente $\rho$ di autocorrelazione al primo ordine.
-
 COSA DEL SOTTRARRE (slide 78-79 violazione errori.pptx)
-
 Alternativamente a questo metodo si può utilizzare un metodo autoregressivo che introduce tre le variabili esplicative anche un termine di errore ritardato che tenga conto dell'autocorrelazione al primo ordine. Se ci sono correlazioni anche a ordini successivi si introducono tante variabili esplicative che ne tengano conto in un numero pari agli ordini che si considerano.
-
 \subsection{Il metodo FLGS}
 Il problema del metodo GLS è che si basa su una conoscenza perfetta della matrice $\Sigma_\varepsilon$ che però non sempre è nota, per questo si usa il metodo FGLS che si basa sulla matrice di varianza e covarianza campionaria. Gli stimatori che si calcolano con il FGLS sono consistenti nel senso che per $N \rightarrow +\infty \; \Rightarrow \; S_\varepsilon \rightarrow \Sigma_\varepsilon$, dove $S_\varepsilon$ indica la matrice di varianza e covarianza per gli errori campionaria.
-
-
 \textit{Oss.}\\
 Poichè il WLS è un caso particolare del GLS, tutte le procedure che si usano nel GLS si possono adottare anche nel WLS.
-
-
-
 \end{document}
