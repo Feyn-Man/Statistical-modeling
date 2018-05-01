@@ -164,7 +164,7 @@ che porta alla seguente equazione, detta \textit{equazione normale}:
 \doubleunderline{X}^t \doubleunderline{X} \cdot \underline{b} = \doubleunderline{X}^t \underline{y}
 \end{equation}
 che corrisponde ad un sistema di $n+1$ equazioni in $n+1$ incognite. Nel caso in cui $k = 1$ si ha il modello di regressione lineare semplice. L'espressione tramite cui è stimato $\underline{b}$:
-\begin{equation}
+\begin{equation}\label{eq:2.21}
 \underline{b} = (\doubleunderline{X}^t X)^{-1} \doubleunderline{X} \cdot \underline{y}
 \end{equation}
 prende il nome di \textit{stimatore dei minimi quadrati}.\\
@@ -296,13 +296,12 @@ Se la quantità $a$ è distribuita normalmente allora t è distribuito come un $
 Nel caso sia condotta una regressione con più regressori si può effettuare un test di ipotesi congiunto per i vari parametri che vengono stimati, ovvero vedere se un determinato set di parametri è efficiente o meno nella stima del modello. Quindi è definita la seguente ipotesi nulla:
 \begin{equation}
 \begin{split}
-H_0 &: \; \beta_0 = 0 ,\; \beta_1 = 0,\; \cdot ,\; \beta_k = 0 \\
-&:\; \beta_0 =  \beta_1 = \cdot = \beta_k = 0
+H_0 &: \; \beta_0 = \beta_1 = \dots = \beta_k = 0 \\
 \end{split}
 \end{equation}
 che implica l'ipotesi alternativa:
 \begin{equation}
-H_1: \; \beta_0 \neq 0 ,\; \beta_1 \neq 0,\; \cdot ,\; \beta_k \neq 0
+H_1: \; \beta_0 \neq 0 ,\; \beta_1 \neq 0,\; \dots ,\; \beta_k \neq 0
 \end{equation}
 ovvero si testa se uno tra i parametri stimati sia nullo, se si rifiuta l'ipotesi nulla significa che almeno uno di essi non è nullo, e quindi è significativo.
 
@@ -311,7 +310,16 @@ Il test di ipotesi congiunta si effettua calcolando la F-measure per il modello 
 F = \frac{SSR_r - SSR_{ur}/q}{SSR_{ur}/(n-(k+1))}
 \label{F-measure}
 \end{equation}
-dove $SSR$ rappresenta la somma dei residui al quadrato del modello, cioè la devianza residua. In particolare $SSR_r$ rappresenta la devianza residua per il modello ristretto all'ipotesi nulla, ovvero, supponendo vera l'ipotesi nulla, $SSR_r$ rappresenta la devianza residua del modello in cui i parametri sono posti uguale ai valori specificati dall'ipotesi, in questo caso sono posti uguale a zero. $SSR_{ur}$ rappresenta invece la devianza residua per il modello non ristretto, ovvero quello stimato con tutti i parametri. La variabile $q$ rappresenta invece il numero di restrizioni, ovvero il numero di parametri che sono testati congiuntamente, $n$ rappresenta il numero di osservazioni e $k$ il numero di variabili indipendenti nel modello non ristretto. Le due quantità rapportate nell'equazione \eqref{F-measure} sono distribuite come un $\chi^2$ che implica che la $F$ sia distribuita come una F di Fisher-Snedecor con $q$ e $n-(k+1)$ gradi di libertà. Possiamo quindi impostare un livello di significatività $\alpha$ con il quale rifiutare l'ipotesi nulla. L'ipotesi nulla è accettata se:
+Dove:
+\begin{itemize}
+	\item $SSR$ rappresenta la somma dei residui al quadrato del modello, cioè la devianza residua.
+	\subitem In particolare $SSR_r$ rappresenta la devianza residua per il modello ristretto all'ipotesi nulla, in cui i parametri sono posti pari ai valori specificati dall'ipotesi (in questo caso zero).
+	\subitem $SSR_{ur}$ rappresenta invece la devianza residua per il modello non ristretto, ovvero quello stimato con tutti i parametri.
+	\item La variabile $q$ rappresenta invece il numero di restrizioni, ovvero il numero di parametri che sono testati congiuntamente.
+	\item $n$ rappresenta il numero di osservazioni nel campione.
+	\item $k$ il numero di variabili indipendenti nel modello non ristretto.
+\end{itemize}
+Le due quantità rapportate nell'equazione \eqref{F-measure} sono distribuite come un $\chi^2$ che implica che la $F$ sia distribuita come una F di Fisher-Snedecor con $q$ e $n-(k+1)$ gradi di libertà. Possiamo quindi impostare un livello di significatività $\alpha$ con il quale rifiutare l'ipotesi nulla. L'ipotesi nulla è accettata se:
 \begin{equation}
 P(F_0 < F_\alpha) = 1-\alpha
 \end{equation}

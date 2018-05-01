@@ -15,7 +15,7 @@ Al contrario ci possono essere situazioni in cui il termine di errore varia tra 
 	\centering
 	\makebox[\textwidth]{\includegraphics[width=\textwidth]{Immagini/Heteroscedasticity.png}}
 	\caption{Regressione lineare con distribuzione eteroschedastica degli errori.}
-	\label{fig: regressione-eteroschedastica}
+	\label{fig:regressione-eteroschedastica}
 \end{figure} 
 Questo andamento è conseguenza del fatto che la varianza del termine di errore, stimato dai residui del modello, dato un certo valore di X non è più costante e in particolare ora dipende da X.
 
@@ -51,7 +51,7 @@ L'ipotesi di omoschedasticità (uguali varianze) è  infatti alla base di test c
 	Per ogni combinazione di gradi di libertà di numeratore e denominatore, si confronta il valore ottenuto con la distribuzione di una variabile casuale distribuita come una F di Sendecor con pari gradi di libertà. Stabilendo il livello di confidenza, si confronta con il valore tabulato della $F$ e si decide se confermare l'ipotesi nulla, cioè che le medie provengono tutte da una stessa distribuzione, oppure se rigettarla, affermando quindi che almeno una non appartiene alla distribuzione delle altre.	
 	[ref:http://docenti.unimc.it/monica.raiteri/teaching/2013/12316/files/slides-i-parte-per-studenti-frequentanti/interpretazione-del-test-f-distribuzione-f-di]
 \end{tcolorbox}
-Oltre alla visualizzazione grafiche, l'eteroschedasticità si può individuare anche tramite metodi analitici, ovvero eseguendo dei test come il \textit{test di White} o il \textit{test di Breuch-Pagan}.
+Oltre alla visualizzazione grafiche, l'eteroschedasticità si può individuare anche tramite metodi analitici, ovvero eseguendo dei test come il \textit{test di White} o il \textit{test di Breusch-Pagan}.
 \subsubsection{Test di White}
 Il test di White testa l'ipotesi nulla di omoschedasticità degli errori:
 \begin{equation}
@@ -190,3 +190,10 @@ Alternativamente a questo metodo si può utilizzare un metodo autoregressivo che
 Il problema del metodo GLS è che si basa su una conoscenza perfetta della matrice $\Sigma_\varepsilon$ che però non sempre è nota, per questo si usa il metodo FGLS che si basa sulla matrice di varianza e covarianza campionaria. Gli stimatori che si calcolano con il FGLS sono consistenti nel senso che per $N \rightarrow +\infty \; \Rightarrow \; S_\varepsilon \rightarrow \Sigma_\varepsilon$, dove $S_\varepsilon$ indica la matrice di varianza e covarianza per gli errori campionaria.
 \textit{Oss.}\\
 Poichè il WLS è un caso particolare del GLS, tutte le procedure che si usano nel GLS si possono adottare anche nel WLS. 
+
+\section{Multicollinearità}
+Abbiamo costruito lo stimatore dei minimi quadrati tramite l'equazione \ref{eq:2.21}, in cui la matrice $ \left(\doubleunderline{X}^T \doubleunderline{X}\right) $ dev'essere invertibile. Nel caso non lo fosse, o avesse determinante prossimo allo zero, le stime della regressione non potrebbero essere ottenuta, o perchè non esistono sufficienti dati per ottenerle, oppure perchè sono empiricamente sottostimate dal modello. In questi casi si dice che nel modello esiste multicollinearità tra le variabili esplicative, che può avere due forme:
+\begin{itemize}
+	\item Multicollinearità imperfetta: quando due o più variabili esplicative usate per costruire il modello sono fortemente correlate tra loro. In questo caso la matrice di cui sopra ha determinante tanto più prossimo allo zero quanto più alta la correlazione tra le variabili.
+	\item Multicollinearità perfetta: quando una variabile esplicativa è combinazione lineare di altre variabili. In questo caso la matrice ha determinante nullo.
+\end{itemize}
