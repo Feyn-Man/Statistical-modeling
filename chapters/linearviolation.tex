@@ -191,14 +191,15 @@ Il problema del metodo GLS è che si basa su una conoscenza perfetta della matri
 \textit{Oss.}\\
 Poichè il WLS è un caso particolare del GLS, tutte le procedure che si usano nel GLS si possono adottare anche nel WLS. 
 
-<<<<<<< HEAD
+
 \section{Multicollinearità}
 Abbiamo costruito lo stimatore dei minimi quadrati tramite l'equazione \ref{eq:2.21}, in cui la matrice $ \left(\doubleunderline{X}^T \doubleunderline{X}\right) $ dev'essere invertibile. Nel caso non lo fosse, o avesse determinante prossimo allo zero, le stime della regressione non potrebbero essere ottenuta, o perchè non esistono sufficienti dati per ottenerle, oppure perchè sono empiricamente sottostimate dal modello. In questi casi si dice che nel modello esiste multicollinearità tra le variabili esplicative, che può avere due forme:
 \begin{itemize}
 	\item Multicollinearità imperfetta: quando due o più variabili esplicative usate per costruire il modello sono fortemente correlate tra loro. In questo caso la matrice di cui sopra ha determinante tanto più prossimo allo zero quanto più alta la correlazione tra le variabili.
 	\item Multicollinearità perfetta: quando una variabile esplicativa è combinazione lineare di altre variabili. In questo caso la matrice ha determinante nullo.
 \end{itemize}
-=======
+
+
 \section{Linearità}
 Tra le possibili violazioni del modello lineare classico vi potrebbe essere il fatto che l'approssimazione lineare non è sempre la migliore. Potremmo infatti avere una relazione non lineare sia nelle variabili che nei parametri del modello. Quando interpoliamo linearmente una relazione che non è lineare introduciamo un eccesso di residui sia positivi che negativi, che possono risultare anche in un autocorrelazione.
 
