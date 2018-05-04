@@ -1,12 +1,34 @@
 \chapter{Modello Lineare Classico} 
-Il modo più generale per esprimere una legge di regressione lineare secondo il modello classico è:
+Un generico modello di regressione esprime una relazione del tipo:
+\begin{equation}
+	y = f(x_1, \dots, x_k) + \varepsilon
+\end{equation}
+dove la $y$ è la variabile dipendente che si cerca di spiegare in termini delle variabili indipendenti $x_1, \dots, x_k$ dette anche variabili \textit{esplicative}, \textit{regressori} o \textit{covariate}.$\varepsilon$ rappresenta invece la componente di errore circa la relazione che lega la $y$ alle covariate $x$, che può essere dovuta ad errori individuali, errori di misurazione o omissione di variabili esplicative che potrebbero ulteriormente cogliere la relazione che sussiste tra $y$ e $x$.
+
+Esistono diversi modelli di regressione, in questa dispensa in particolare viene indagato il metodo di regressione lineare che può essere:
+\begin{itemize}
+	\item \textbf{semplice}, se si utilizza una sola variabile esplicativa, quindi:
+	\begin{equation}
+		y_i = \beta_0 + \beta_1 x_1 + \varepsilon
+	\end{equation}
+	dove si è utilizzato il pedice $i$ per la $y$ per specificare la specifica relazione tra l'osservazione $i$ del campione o della popolazione che si sta studiando e la variabile $x_1$ che in questo caso rappresenta il valore specifico che la covariata $x_1$ assume per l'osservazione $i$. 
+	\item \textbf{multiplo}, se si inserisce più di una variabile esplicativa, quindi:
+	\begin{equation}
+		y_i = \beta_0 + \beta_1 \cdot x_1 + \beta_2 \cdot x_2 + \dots + \beta_k \cdot x_k + \varepsilon
+	\end{equation}
+	\item \textbf{multivariato}, se si ha più di una variabile dipendente e più di una variabile esplicativa, quindi:
+	\begin{equation}
+		\mathbf{y_1}, \mathbf{y_2}, \dots, \mathbf{y_n} = \beta_0 + \beta_1 \cdot x_1 + \beta_2 \cdot x_2 + \dots + \beta_k \cdot x_k + \varepsilon
+	\end{equation}
+\end{itemize}
+Senza considerare per ora il caso multivariato che sarà analizzato in un prossimo capitolo, il modo più generale per esprimere la relazione tra una variabile dipendente e le variabili di regressione è la seguente:
 
 \begin{equation}
-\underline{Y} = \doubleunderline{X} \cdot \underline{b} + \underline{\varepsilon}
+Y = X \cdot \underline{\beta} + \underline{\varepsilon}
 \end{equation}
-con
+dove con $Y$ si è indicato il vettore per tutte le osservazioni $i$ in studio, e con $X$ la matrice che contiene i valori delle covariate per ogni osservazione $i$ del modello (più il termine noto).
 \begin{equation}
-\underline{Y} = 
+Y = 
 \begin{pmatrix}
 y_1 \\ 
 . \\ 
@@ -15,14 +37,14 @@ y_1 \\
 y_n
 \end{pmatrix}
 \quad
-\doubleunderline{X} = \begin{pmatrix}
-x_{1,1} & x_{1,2} & \dots & x_{1,k} \\ 
-x_{2,1} & \dots & \dots &  \\ 
-\vdots &  & \ddots & \vdots \\ 
-x_{n,1} & \dots &  & x_{n,k}
+X = \begin{pmatrix}
+1 & x_{1,2} & \dots & x_{1,k} \\ 
+1 & x_{2,2} & \dots & \vdots \\ 
+\vdots & \dots  & \ddots & \vdots \\ 
+1 & \dots &  & x_{n,k}
 \end{pmatrix} 
 \quad
-\underline{b} = \begin{pmatrix}
+\underline{\beta} = \begin{pmatrix}
 b_0 \\ 
 . \\ 
 . \\ 
@@ -38,19 +60,25 @@ b_n
 \varepsilon_n
 \end{pmatrix} 
 \end{equation}
-dove $\underline{b}$ rappresenta il vettore dei regressori, mentre $\underline{\varepsilon}$ quello degli errori per ciascuna osservazione. Questo modello si basa su alcune ipotesi che analizziamo di seguito.
+La matrice $X$, detta anche \textit{matrice disegno}, ha la prima colonna composta da tutti $1$ in quanto questa colonna è quella che va a moltiplicarsi con il termine noto, che è il primo valore nel successivo vettore $\underline{\beta}$. Ogni colonna della matrice rappresenta una variabile esplicativa quindi la prima colonna per esempio rappresenta la variabile esplicativa $x_1$ e ogni elemento in questa colonna è il valreo che tale variabile assume per l'osservazione $i$, così che se si considera per esempio la prima osservazione il valore di $y$ per questa osservazione sarebbe la prima riga della moltiplicazione tra matrici a destra dell'equazione, ovvero:
+\begin{equation}
+	y_1 = \beta_0 + \beta_1 \cdot x_{11} + \dots + \beta_n \cdot x_{1n} + \varepsilon_1
+\end{equation}
+$\underline{\beta}$ rappresenta come si è detto il vettore dei parametri ignoti per i regressori, mentre $\underline{\varepsilon}$ quello degli errori per ciascuna osservazione.
 
+\section{Ipotesi sul modello}
+Il modello di regressione lineare fin qui presentato poggia la sua validità su una serie di ipotesi che sono qui riassunte.
 \subsection{Ipotesi di Linearità}
 Secondo questa ipotesi, sia le variabili esplicative del modello (i valori della matrice $\doubleunderline{X}$) sia i parametri $\underline{b}$ sono lineari.
 
 \subsection{Ipotesi di Non Sistematicità degli Errori}
-Quest'ipotesi sostiene che la distribuzione di probabilità condizionata di ogni errore $\varepsilon_i$ dato il corrispondente vettore delle variabili esplicative $\underline{X}_i$ è centrata in zero, cioè:
+Quest'ipotesi sostiene che il valore atteso di ogni errore $\varepsilon_i$ dato il corrispondente set di variabili esplicative corrispondente alla riga $i$-esima della matrice $X$ è zero, ovvero:
 \begin{equation}
-E\left(\varepsilon_i|\underline{X}_i\right) = 0
+E\left(\varepsilon_i|{X}_{in}\right) = 0
 \end{equation}
-Di conseguenza la distribuzione della variabile dipendente è data da:
+Di conseguenza il valore atteso della variabile dipendente è:
 \begin{equation}
-E\left(\underline{y}|\doubleunderline{X}\right) = \doubleunderline{X}\ \underline{b}
+E\left(\underline{y}|{X}\right) = X \underline{\beta}
 \end{equation}
 
 \subsection{Ipotesi di Sfericità degli Errori}
@@ -187,6 +215,7 @@ Chiamiamo $\mu = \doubleunderline{X} \cdot b$ il nostro vettore dei valori fitta
 %\includegraphics[scale=0.4]{Immagini/spazio-col.png}
 %\caption{Rappresentazione dello spazio delle colonne e dei vettori di interesse.}
 %\end{figure}
+\section{Bontà di adattamento}
 La bontà di adattamento si stima in base a \textit{devianza totale} e
 \textit{devianza spiegata}.\\
 La \textit{devianza spiegata} è la somma delle differenze al quadrato tra i valori teorici della retta interpolante e la media dei valori empirici.\\
@@ -208,13 +237,13 @@ R^2 = \frac{Cov(X, Y)}{var(X)var(Y)}
 
 $R^2$ è un numero che varia tra 0 e 1, è = 0 se non c'è correlazione lineare, = 1 se c'è perfetta correlazione.
 
-\subsection{Testare i risultati: t-test e F-measure (test di ipotesi)}
+\section{Testare i risultati: t-test e F-measure (test di ipotesi)}
 Per testare i risultati ottenuti dei parametri si possono effettuare due misure di test sull'ipotesi nulla che il coefficiente stimato sia o meno uguale a zero, ovvero:
 \begin{equation}
 H_0 = \beta_i = 0
 \end{equation}
 
-\subsubsection{Test di ipotesi e \textit{p-value}}
+\subsection{Test di ipotesi e \textit{p-value}}
 Un test di ipotesi è un procedimento tramite il quale si verifica la validità di una certa ipotesi. Solitamente si parte definendo un'\textit{ipotesi nulla} tramite la quale si afferma che per la popolazione, o comunque più in generale per il fenomeno che si sta studiando, vale una determinata condizione, ovvero:
 \begin{equation}
 H_0 = \mu 
@@ -258,7 +287,7 @@ che rappresenta quindi la probabilità di osservare un valore di $\bar{a}$ maggi
 	A livello interpretativo il livello di confidenza $\alpha$ che si specifica (solitamente è fissato a $0,05$, ovvero al $5\%$ totale della distribuzione) indica la probabilità di rigettare l'ipotesi nulla nel caso in cui poi essa sia effettivamente vera, ovvero le probabilità di errore. Nel valutare l'ipotesi nulla infatti possiamo incappare in due tipi di errori: ritenerla vera quando invece in realtà è falsa, e ritenerla falsa quando invece in realtà è vera. Specificando il livello $\alpha$ stiamo specificando la probabilità di commettere il secondo tipo di errore, infatti se diciamo che rifiutiamo l'ipotesi nulla se il valore che osserviamo cade nelle code, ovvero nella regione $\alpha$ della curva, stiamo comunque rifiutando tutti quei valori della distribuzione per cui l'ipotesi nulla è comunque vera, anche se poco probabile. Quindi nel caso in cui poi l'ipotesi nulla sia effettivamente vera, al massimo in $\alpha \; ( e.g.\!5\%)$ dei casi concluderemo che è falsa, in quanto troveremo i valori nelle code per cui abbiamo deciso si rifiutare l'ipotesi, mentre nel rimanente $95\%$ concluderemo correttamente che è vera. Se invece è effettivamente falsa queste probabilità non valgono più.
 \end{tcolorbox}
 
-\subsubsection{t-test}
+\subsection{t-test}
 
 La \textit{t-statistic}, detta anche \textit{t-measure} o \textit{t-test}, rappresenta un modo per valutare se la stima di una quantità risulta accettabile o meno rispetto ad un'ipotesi nulla. È definita come segue:
 \begin{equation}
@@ -292,7 +321,7 @@ Se la quantità $a$ è distribuita normalmente allora t è distribuito come un $
 	A questo punto se l'ipotesi nulla è effettivamente vera nel $95\%$ dei casi sarà accettata, mentre solamente nel $5\%$ dei casi sarà rifiutata, cioè per il $95\%$ degli intervalli calcolati per diversi valori osservati sarà accettata, mentre per il rimanente $5\%$ degli intervalli non sarà accettata . Questi intervalli di confidenza sono quelli centrati su valori osservati che sono nella regione del $5\%$ delle code per la distribuzione centrata sull'ipotesi nulla, ovvero quei valori nelle regioni rosse in figura \ref{fig: distro-pvalue}. 
 \end{tcolorbox}
 
-\subsubsection{F measure}
+\subsection{F measure}
 Nel caso sia condotta una regressione con più regressori si può effettuare un test di ipotesi congiunto per i vari parametri che vengono stimati, ovvero vedere se un determinato set di parametri è efficiente o meno nella stima del modello. Quindi è definita la seguente ipotesi nulla:
 \begin{equation}
 \begin{split}
@@ -316,7 +345,7 @@ dove $SSR$ rappresenta la somma dei residui al quadrato del modello, cioè la de
 P(F_0 < F_\alpha) = 1-\alpha
 \end{equation}
 ovvero se si ottiene un valore per il test $F_0$ minore del valore $F_\alpha$, valore per cui la probabilità è uguale a $1-\alpha$. Questo valore si può trovare tabulato. Se invece si trova un valore maggiore, tale per cui la probabilità di ottenere un valore maggiore o uguale è uguale o minore di $\alpha$, allora si può rigettare l'ipotesi nulla.
-\subsection{Stima dei parametri tramite massima verosimiglianza}
+\section{Stima dei parametri tramite massima verosimiglianza}
 Nel modello lineare classico gli errori si distribuiscono, come si è detto, in modo gaussiano, ovvero:
 \begin{equation}
 \epsilon_i \sim N(0,\sigma^2)
@@ -335,7 +364,7 @@ max_\beta L(y_i - X_i\beta) \quad i=1 \cdots n
 \end{equation}
 Da questo si arriva a dimostrare che lo stimatore dei $\beta$ di massima verosimiglianza (ML) coincide con quello trovato in precedenza, e possiede le stesse proprietà di consistenza, correttezza ed efficienza, comprese le proprietà asintotiche richieste nel caso in cui le misure siano statisticamente indipendenti.
 
-\subsection{Variabili esplicative qualitative}
+\section{Variabili esplicative qualitative}
 Le variabili esplicative qualitative o categoriche sono determinate da attributi:
 \begin{itemize}
 	\item nominali
@@ -363,3 +392,25 @@ Y_i = \beta_0 + \beta_1 + \epsilon
 \end{equation}
 ovvero l'intercetta rappresenta il \textit{valore stimato} di $Y$ quando la variabile esplicativa dummy è uguale a 0. Il coefficiente angolare è dato invece dalla differenza in Y per i due diversi valori della variabile esplicativa dummy, ovvero facendo la differenza tra la \eqref{eq: dummy intercetta} e \eqref{eq: dummy completa}.
 La statistica inferenziale si fa anche in questo caso come prima, utilizzando stime e test.
+
+Si può avere anche il caso in cui sia presente sia una variabile qualitativa dummy che una variabile quantitativa. In questo caso si ha un modello del tipo:
+\begin{equation}
+	y_i = \beta_0 + \beta_1 \cdot x_i + \beta_2 \cdot D_i + \varepsilon_i \qquad \text{con} \quad i=1 \cdots n
+	\label{eq: regressione dummy+quantitativa}
+\end{equation}
+dove la variabile $x_i$ è ovviamente una variabile quantitativa, mentre $D_i$ è la dummy qualitativa che può assumere i due valori $0$ e $1$. In questo caso quindi il parametro $\beta_2$ rappresenta l'effetto della variabile dummy sull'intercetta e osservare quindi se tale effetto risulta significativo oppure no.\\
+Il modello per una dummy dicotomica si può quindi scrivere anche come:
+\begin{equation}
+y_i = 
+\begin{cases}
+\beta_0 + \beta_1 \cdot x_i + \varepsilon_i \qquad \text{se} \quad D_i = 0 \\
+(\beta_0 + \beta_2) + \beta_1 \cdot x_i  + \varepsilon_i \qquad \text{se} \quad D_i = 1
+\end{cases}
+\end{equation}
+da cui si può osservare meglio l'effetto della dummy sull'intercetta del modello.\\
+Graficamente questo caso si può visualizzare nel modo seguente:
+\begin{figure}
+	\centering
+	\includegraphics[scale = 0.5]{Immagini/regressione-dummy.png}
+	\caption{In figura è riportato un esempio di regressione con dummy variabile dicotomica. In particolare l'esempio rappresenta la regressione $\log(\hat{Y}) = \hat{\beta}_0 + \hat{\beta}_1 \cdot \log(Miles) + \hat{\beta_2} \cdot Seatbelt$, dove $Y$ rappresenta il numero di incidenti fatali, e la variabile dicotomica $D$ è $SeatBelt$.}
+\end{figure}
