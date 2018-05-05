@@ -214,24 +214,51 @@ Il problema del metodo GLS è che si basa su una conoscenza perfetta della matri
 \textit{Oss.}\\
 Poichè il WLS è un caso particolare del GLS, tutte le procedure che si usano nel GLS si possono adottare anche nel WLS. 
 
+\section{Multicollinearità}
+Se la matrice $(X^t X)$ , con cui si stimano i coefficienti del modello lineare, non è invertibile ($\det = 0$), le stime dei parametri non esistono o comunque non sono stabili (coefficienti sottoidentificati). Ciò si verifica quando almeno una variabile è correlata linearmente con le altre e quindi si ha multicollinearità. Se in particolare si ha che una variabile esplicativa è una combinazione lineare \textit{perfetta} delle altre ($\Rightarrow \det = 0$), allora diventa impossibile fare stime per i coefficienti in quanto ci sono infinite soluzioni al sistema. Se invece non c’è perfetta collinearità, ma si hanno comunque due variabili fortemente correlate, si ha che il determinante della matrice $(X^t X)$ tende a $0$. Questo implica un aumento della varianza per le stime dei coefficienti $\hat{\beta}$ in quanto ricordiamo che la loro varianza è uguale a:
+\begin{equation}
+	Var(\hat{\beta}) = \sigma^2 (X^t X)^{-1}
+	\label{eq: varianza collineare}
+\end{equation}
+e $(X^t X)^{-1}$ dipende in modo inversamente proporzionale dal determinante di $(X^t X)$ (per la formula dell'inversa), che se c’è collinearità si è detto che tende a zero. Di conseguenza $(X^t X)^{-1}$ diventa molto grande comportando un conseguente aumento della varianza \eqref{eq: varianza collineare}.  Il test $t$ quindi sarà caratterizzato da una regione di accettazione dell’ipotesi nulla più stretta di quanto sia in realtà se le variabili non fossero collineari, e quindi aumenta la probabilità di ritenere un parametro come significativo quando in realtà non lo è. Lo stesso ragionamento può essere fatto per il test $F$ e per gli intervalli di confidenza che risultano più ampi. Inoltre se ho due variabili fortemente correlate, se la prima spiega l’$80\%$ della varianza, se aggiungo la seconda variabile correlata con essa l’aumento di devianza spiegata da $R^2$ è di gran lunga inferiore all’aumento che avrei inserendo una variabile non correlata. Stessa cosa avviene se inserisco nel modello la seconda variabile suddetta e poi la prima, quindi non posso dire quale delle due variabili è più influente e utile ai fini del modello.
+
+\subsection{Indice di tolleranza, VIF e condition index}
+L’indice di tolleranza $Tol$ misura quanto una variabile è correlata rispetto alle altre, è definito come segue:
+\begin{equation}
+	Tol(x_j) = 1 - R_j^2 (x_j \vert x_1 , \dots, x_{j-1} , x_{j+1} , \dots , x_n )
+\end{equation}
+dove il coefficiente $R_j^2$ risulta dalla regressione di $x_j$ sulle altre variabili indipendenti.
+Se tutte le variabili sono incorrelate si ha $Tol(x_j) = 1$, mentre se una variabile è perfettamente correlata alle altre si ottiene $Tol(x_j) = 0$.
+
+Associato all’indice di tolleranza vi è il $VIF$ (Variance Inflation Factor), definito come:
+\begin{equation}
+	VIF = \frac{1}{Tol} = \frac{1}{1 - R_j^2}
+\end{equation}
+In caso di multicollinearità perfetta si ha $VIF = \infty$, e in generale un valore di questo indice superiore a $20$, indica una forte collinearità tra la variabile $j$ che si sta testando e le altre variabili. 
+
+Un altro indice di collinearità è il \textit{condition index}, che si calcola a partire dagli autovalori per la matrice $(X^t X)^{-1}$ . Dopo aver calcolato questi, si costruisce il condition index per ciascun autovalore prendendo la radice del rapporto tra l’autovalore di valore massimo e l’autovalore che si sta considerando, ovvero:
+\begin{equation}
+	CI_i = \sqrt{\frac{\lambda_{max}}{\lambda_i}}
+\end{equation}
+tipicamente un $CI \geq 30$ indica una probabile esistenza di collinearità tra le variabili.
+
 \section{Linearità}
-Tra le possibili violazioni del modello lineare classico vi potrebbe essere il fatto che l'approssimazione lineare non è sempre la migliore. Potremmo infatti avere una relazione non lineare sia nelle variabili che nei parametri del modello. Quando interpoliamo linearmente una relazione che non è lineare introduciamo un eccesso di residui sia positivi che negativi, che possono risultare anche in un autocorrelazione.
+Tra le possibili violazioni del modello lineare classico vi potrebbe essere il fatto che l'approssimazione lineare non è sempre la migliore. Potremmo infatti avere una relazione non lineare sia nelle variabili che nei parametri del modello. Quando interpoliamo linearmente una relazione che non è lineare introduciamo un eccesso di residui sia positivi che negativi, che possono risultare anche in un'autocorrelazione.
 
 Possiamo verificare la presenza di un andamento non lineare nelle variabili in diversi modi:
 \begin{itemize}
 	\item \textbf{Scatter plot} della variabile dipendente in funzione della variabile esplicativa, e vedere qual è l'adattamento del fit lineare ai dati.
-	\item \textbf{Scatter plot} dei residui in funzione dei valori osservatio dei valori previsti e vedere se si ditribuiscono in un modo più o meno regolare in una banda, o invece se ci sono regioni in cui si addensano.
-	\item \textbf{Risultati del fit}. Dai risultati del fit possiamo ottenere un $R^2$ elevato anche se c'è un andamento non prettamente lineare nei dati. Questo perchè magari la funzione con cui si interpolano correttamente i dati è una polinomiale con anche una componente lineare, quindi l'$R^2$ per questa componente risulta comunque elevato. La non linearità però può essere comunque individuata dai test di ipotesi, infatti spesso in caso di non linearità alcune variabili esplicative possono risultare non significative, così come il test $F$ per l'analisi della varianza.
-	\item 
+	\item \textbf{Scatter plot} dei residui in funzione dei valori osservati o dei valori previsti e vedere se si ditribuiscono in un modo più o meno regolare in una banda, o invece se ci sono regioni in cui si addensano.
+	\item \textbf{Risultati del fit}. Dai risultati del fit possiamo ottenere un $R^2$ elevato anche se c'è un andamento non prettamente lineare nei dati. Questo perchè magari la funzione con cui si interpolano correttamente i dati è una polinomiale con anche una componente lineare, quindi l'$R^2$ per questa componente risulta comunque elevato. La non linearità però può essere comunque individuata dai test di ipotesi, infatti spesso in caso di non linearità alcune variabili esplicative possono risultare non significative, così come il test $F$ per l'analisi della varianza. 
 \end{itemize}
 
 Nel caso di una non-linearità nei \textbf{parametri}, il parametro non lineare viene sostituito con un altro parametro in modo da ottenere una relazione lineare. In seguito si risolve il modello con questo nuovo parametro con il metodo OLS classico ed infine si ricava il parametro originario mediante la relazione che si è stabilita inserendo il nuovo parametro per la stima del modello.
 
-Nel caso di una non-linearità nelle variabili si sostituisce la variabile non lineare eguagliandola ad una nuova, in modo che il nuovo modello risulti lineare. Si calcolano i parametri utilizzando il modello OLS classico ed infine si ritorna alle variabili originarie.
+Nel caso di una non-linearità nelle \textbf{variabili} si sostituisce la variabile non lineare eguagliandola ad una nuova, in modo che il nuovo modello risulti lineare. Si calcolano i parametri utilizzando il modello OLS classico ed infine si ritorna alle variabili originarie.
 
 Ci possono essere però alcune relazioni \textit{intrinsecamente} non lineari, per le quali non è possibile effettuare una linearizzazione e di cui non è possibile studiarne i parametri tramite OLS. In questi casi i parametri possono essere stimati tramite minimi quadrati non lineari (NLS).
 
-In tutti questi casi però la funzione non lineare è fornita sin dall'inizio e da questa si procede poi alla linearizzazione. Nel caso la funzione non venga fornita è possibile studiare diversi casi di andamento non lineare nelle variabili tramite i metodi regressione multipla OLS. I principali effetti non lineari che si vogliono studiare sono:
+In tutti questi casi però la funzione non lineare è fornita (si conosce la forma funzionale non lineare) sin dall'inizio e da questa si procede poi alla linearizzazione. Nel caso la funzione non venga fornita (come accade nel caso si voglia studiare con un modello la relazione che sussiste tra una variabile dipendente di output e i regressori) è possibile studiare diversi casi di andamento non lineare nelle variabili tramite i metodi regressione multipla OLS. I principali effetti non lineari che si vogliono studiare sono:
 \begin{itemize}
 	\item grado superiore in $y$ (e.g. $y^2$)
 	\item grado superiore in $x$ (e.g. $x^2$)
