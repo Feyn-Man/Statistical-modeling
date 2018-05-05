@@ -247,16 +247,20 @@ Tra le possibili violazioni del modello lineare classico vi potrebbe essere il f
 
 Possiamo verificare la presenza di un andamento non lineare nelle variabili in diversi modi:
 \begin{itemize}
-	\item \textbf{Scatter plot} della variabile dipendente in funzione della variabile esplicativa, e vedere qual è l'adattamento del fit lineare ai dati.
+	\item \textbf{Scatter plot} della variabile dipendente in funzione della variabile esplicativa (o delle variabli esplicative), e vedere com'è l'adattamento del fit lineare ai dati.
 	\item \textbf{Scatter plot} dei residui in funzione dei valori osservati o dei valori previsti e vedere se si ditribuiscono in un modo più o meno regolare in una banda, o invece se ci sono regioni in cui si addensano.
-	\item \textbf{Risultati del fit}. Dai risultati del fit possiamo ottenere un $R^2$ elevato anche se c'è un andamento non prettamente lineare nei dati. Questo perchè magari la funzione con cui si interpolano correttamente i dati è una polinomiale con anche una componente lineare, quindi l'$R^2$ per questa componente risulta comunque elevato. La non linearità però può essere comunque individuata dai test di ipotesi, infatti spesso in caso di non linearità alcune variabili esplicative possono risultare non significative, così come il test $F$ per l'analisi della varianza. 
+	\item \textbf{Risultati del fit}. Dai risultati del fit possiamo ottenere un $R^2$ elevato anche se c'è un andamento non prettamente lineare nei dati. Questo perchè magari la funzione con cui si interpolano correttamente i dati è una polinomiale con anche una componente lineare, quindi l'$R^2$ per questa componente risulta comunque elevato. La non linearità però può essere comunque individuata dai test di ipotesi, infatti spesso in caso di non linearità alcune variabili esplicative possono risultare non significative nonostante si abbia un $R^2$ elevato, così come il test $F$ per l'analisi della varianza. 
 \end{itemize}
 
 Nel caso di una non-linearità nei \textbf{parametri}, il parametro non lineare viene sostituito con un altro parametro in modo da ottenere una relazione lineare. In seguito si risolve il modello con questo nuovo parametro con il metodo OLS classico ed infine si ricava il parametro originario mediante la relazione che si è stabilita inserendo il nuovo parametro per la stima del modello.
 
 Nel caso di una non-linearità nelle \textbf{variabili} si sostituisce la variabile non lineare eguagliandola ad una nuova, in modo che il nuovo modello risulti lineare. Si calcolano i parametri utilizzando il modello OLS classico ed infine si ritorna alle variabili originarie.
 
-Ci possono essere però alcune relazioni \textit{intrinsecamente} non lineari, per le quali non è possibile effettuare una linearizzazione e di cui non è possibile studiarne i parametri tramite OLS. In questi casi i parametri possono essere stimati tramite minimi quadrati non lineari (NLS).
+Ci possono essere però alcune relazioni \textit{intrinsecamente} non lineari, per le quali non è possibile effettuare una linearizzazione e di cui non è possibile studiarne i parametri tramite OLS. In questi casi i parametri possono essere stimati tramite minimi quadrati non lineari (NLS). Un esempio di questo tipo è la curva di crescita esponenziale negativa:
+\begin{equation}
+	y = \beta_0 - \alpha \exp(-\beta_1 x)
+\end{equation}
+con $\beta_0$, $\beta_1$ e $\alpha$ parametri sconosciuti. I parametri di regressione in questo caso si trovano appunto con metodi di calcolo numerico attraverso NLS.
 
 In tutti questi casi però la funzione non lineare è fornita (si conosce la forma funzionale non lineare) sin dall'inizio e da questa si procede poi alla linearizzazione. Nel caso la funzione non venga fornita (come accade nel caso si voglia studiare con un modello la relazione che sussiste tra una variabile dipendente di output e i regressori) è possibile studiare diversi casi di andamento non lineare nelle variabili tramite i metodi regressione multipla OLS. I principali effetti non lineari che si vogliono studiare sono:
 \begin{itemize}
@@ -265,7 +269,22 @@ In tutti questi casi però la funzione non lineare è fornita (si conosce la for
 	\item grado inferiore in $x$ (e.g. $\log(x)$)
 	\item grado inferiore in $y$ (e.g. $\log(y)$)
 \end{itemize}
-Nel caso si proceda a stimare modelli non lineari di questo tipo nelle variabili, i coefficienti come si è detto possono essere stimati normalmente tramite il metodo OLS, e l'interpretazione dei test rimane la stessa che nel caso del modello lineare classico. La scelta della specificazione della forma funzionale deve essere guidata dall'analisi grafica (scatter plot) dei valori osservati e dei valori predetti.
+Nel caso si proceda a stimare modelli non lineari di questo tipo nelle variabili, i coefficienti come si è detto possono essere stimati normalmente tramite il metodo OLS, e l'interpretazione dei test rimane la stessa che nel caso del modello lineare classico. La scelta della specificazione della forma funzionale deve essere guidata dall'analisi grafica (scatter plot) dei valori osservati e dei valori predetti.\\
+Le trasformazioni logaritmiche in particolare possono aiutare nel caso il campo di variazione per la $y$ o per la $x$ sia molto ampio. Inoltre la trasformazione logaritmica permette un'interpretazione dei coefficienti di regressione in percentuale che può risultare utile in diverse applicazioni. L'interpretazione letterale dei coefficienti come variazione della variabile dipendente per variazioni unitarie della variabile (o delle variabili) indipendente vale ancora, anche nel caso in cui si utilizza un modello trasformato con un logaritmo, ma solitamente è più ragionevole interpretarlo non come cambi unitari per il logaritmo ma come variazioni percentuali. Consideriamo quindi i diversi casi che si possono presentare:
+\begin{itemize}
+	\item \textbf{Linear-log model (Lin-log):} $y_i = \beta_0 + \beta_1 \log(x_i) + \varepsilon_i$.\\
+	Se effettuiamo un cambio unitario su $x$ in questo modello otteniamo:
+	\begin{equation}
+	\notag
+		\log(x) \rightarrow \log(x+1) = \log(x) + \log(e) = log(ex)
+	\end{equation}
+	ovvero aumentare $x$ di 1 equivale a moltiplicarla la per $e \simeq 2,72$, ovvero incrementarla del $172\%$.\\
+	$\hat{\beta}_1$ rappresenta quindi in questo caso il cambio atteso in $y$ quando la $x$ aumenta del $172\%$. Per altri cambi percentuali si può usare la formula $\hat{\beta}_1 \cdot \log(1 + \frac{p}{100})$, quindi se per esempio si vuole considerare il cambio in $y$ per un aumento del $10\%$ nella $x$ si ottiene che $\hat{\beta}_1 \cdot \log(1 + 0,1) = \hat{\beta}_1 \cdot \log(1,1) = 0,095 \hat{\beta}_1$ è il cambiamento atteso in $y$, quando $x$ è moltiplicata per $1.1$, ovvero aumenta del $10\%$.
+	\item \textbf{Log-linear model:} $\log(y_i) = \beta_0 + \beta_1 x_i + \varepsilon_i$.\\
+	In questo modello variazioni unitarie nella $x$ implicano che il logaritmo di $y$ sia aumentato di $\hat{\beta}_1$, ovvero che $y$ sia moltiplicata per $e^{\hat{\beta}_1}$. Per piccoli valori di $\hat{\beta}_1$, $e^{\hat{\beta}_1}$ si può approssimare come $e^{\hat{\beta}_1} \approx 1+\hat{\beta}_1$. Moltiplicando a questo punto $\hat{\beta}_1$ per $100$, si può identificare il cambio percentuale nella $y$ per una variazione unitaria nella $x$. Per esempio con $\hat{\beta}_1 = 0,06$, si ha che $e^{0,06}$, con cui si moltiplica la $y$, si può approssimare a $1,06$, ovvero si ottiene un aumento della $y$ del $6\%$. 
+	\item \textbf{Log-Log model:} $\log(y_i) = \beta_0 + \beta_1 \log(x_i) + \varepsilon_i$.\\
+	In quest'ultimo modello l'interpretazione dei coefficienti è una combinazione delle interpretazioni percentuali precedenti, ovvero quando $x$ aumenta di una certa percentuale ci si aspetta un certo cambio percentuale sulle $y$. Qui si ottiene che moltiplicare la $x$ per $e$ comporta una moltiplicazione della $y$ per $e^{\hat{\beta}_1}$. Per avere il cambio percentuale specifico per una variazione percentuale specifica sulla $x$ bisogna calcolare prima $a = \log(1+\frac{p}{100})$ coefficiente di moltiplicazione che starà davanti al $\hat{\beta}_1$ e poi calcolare $e^{a\hat{\beta}_1}$.
+\end{itemize}
 
 \section{Normalità}
 Se gli errori non sono distribuiti in modo normale avvengono alcune conseguenze:

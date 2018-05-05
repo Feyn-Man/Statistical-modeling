@@ -211,10 +211,14 @@ Il problema si può anche vedere dal punto di vista geometrico. Possiamo infatti
 \sum_{i=1}^k (y_i - \doubleunderline{X} \cdot \underline{b})^2 = \| y_i - \doubleunderline{X} \cdot \underline{b} \|^2
 \end{equation}
 Chiamiamo $\mu = \doubleunderline{X} \cdot b$ il nostro vettore dei valori fittati (i valori teorici previsti) che corrisponde ad un vettore nello spazio delle colonne di $\doubleunderline{X}$ . Questo vettore $\mu$ rappresenta anche l'unica proiezione di $\underline{y}$ su $\doubleunderline{X}$. La distanza tra $\underline{y}$ e $\mu$ è un vettore ortogonale (vettore dei residui) allo spazio $\doubleunderline{X}$ e il metodo dei minimi quadrati ha lo scopo di minimizzare questo vettore. Se la dimensione dello spazio delle colonne è esattamente uguale al numero di variabili esplicative allora la soluzione è unica.
-%\begin{figure}
-%\includegraphics[scale=0.4]{Immagini/spazio-col.png}
-%\caption{Rappresentazione dello spazio delle colonne e dei vettori di interesse.}
-%\end{figure}
+\begin{figure}
+\includegraphics[scale=0.4]{Immagini/spazio-col.png}
+\caption{Rappresentazione dello spazio delle colonne e dei vettori di interesse.}
+\end{figure}
+
+\subsection{Interpretazione}
+I coefficienti $\beta$ indicano la variazione che si ha sulla variabile dipendente $y$ per una variazione unitaria della variabile esplicativa $x$. Nessuna interpretazione addizionale è richiesta oltre alla stima dei coefficienti $\hat{\beta}$ in sè.
+
 \section{Bontà di adattamento}
 La bontà di adattamento si stima in base a \textit{devianza totale} e
 \textit{devianza spiegata}.\\
