@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.2.24)  5 MAY 2018 11:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.2.24)  5 MAY 2018 17:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1245,7 +1245,7 @@ LaTeX Font Info:    Try loading font information for U+dsrom on input line 108.
 File: Udsrom.fd 1995/08/01 v0.1 Double stroke roman font definitions
 )
 [5] [6] [7]
-<Immagini/spazio-col.png, id=265, 819.06pt x 538.01pt>
+<Immagini/spazio-col.png, id=241, 819.06pt x 538.01pt>
 File: Immagini/spazio-col.png Graphic file (type png)
 <use Immagini/spazio-col.png>
 Package pdftex.def Info: Immagini/spazio-col.png  used on input line 215. on in
@@ -1266,7 +1266,7 @@ Overfull \hbox (126.74246pt too wide) in paragraph at lines 236--238
                                                   \fi \fi 
 l.238 \begin{equation}
                        <./Immagini/spazio-col.png>] [10]
-<Immagini/distro-pvalue.png, id=296, 860.21375pt x 408.52625pt>
+<Immagini/distro-pvalue.png, id=272, 860.21375pt x 408.52625pt>
 File: Immagini/distro-pvalue.png Graphic file (type png)
 <use Immagini/distro-pvalue.png>
 Package pdftex.def Info: Immagini/distro-pvalue.png  used on input line 269. on
@@ -1280,7 +1280,7 @@ e 269.
                                                   \fi \fi 
 l.294 \subsection
                  {t-test} <./Immagini/distro-pvalue.png>] [12]
-<Immagini/intervallo-di-confidenza.png, id=318, 865.2325pt x 432.61626pt>
+<Immagini/intervallo-di-confidenza.png, id=293, 865.2325pt x 432.61626pt>
 File: Immagini/intervallo-di-confidenza.png Graphic file (type png)
 <use Immagini/intervallo-di-confidenza.png>
 Package pdftex.def Info: Immagini/intervallo-di-confidenza.png  used on input l
@@ -1310,7 +1310,7 @@ Overfull \hbox (25.40457pt too wide) in paragraph at lines 352--352
  []
 
 [14] [15]
-<Immagini/regressione-dummy.png, id=355, 589.20125pt x 415.5525pt>
+<Immagini/regressione-dummy.png, id=331, 589.20125pt x 415.5525pt>
 File: Immagini/regressione-dummy.png Graphic file (type png)
 <use Immagini/regressione-dummy.png>
 Package pdftex.def Info: Immagini/regressione-dummy.png  used on input line 418
@@ -1329,7 +1329,7 @@ l.71 \include{chapters/mcl}
 
 (./chapters/linearviolation.tex
 Chapter 3.
-<Immagini/Homoscedasticity.png, id=365, 408.02437pt x 267.24844pt>
+<Immagini/Homoscedasticity.png, id=341, 408.02437pt x 267.24844pt>
 File: Immagini/Homoscedasticity.png Graphic file (type png)
 <use Immagini/Homoscedasticity.png>
 Package pdftex.def Info: Immagini/Homoscedasticity.png  used on input line 7. o
@@ -1340,7 +1340,7 @@ e 7.
 LaTeX Warning: Reference `fig:regressione-eteroschedastica' on page 17 undefine
 d on input line 13.
 
-<Immagini/Heteroscedasticity.png, id=366, 418.56375pt x 268.75406pt>
+<Immagini/Heteroscedasticity.png, id=342, 418.56375pt x 268.75406pt>
 File: Immagini/Heteroscedasticity.png Graphic file (type png)
 <use Immagini/Heteroscedasticity.png>
 Package pdftex.def Info: Immagini/Heteroscedasticity.png  used on input line 16
@@ -1425,7 +1425,7 @@ Underfull \hbox (badness 1147) in paragraph at lines 331--335
 istics . com / statistics -[] tables / shapiro -[]
  []
 
-[32] [33] [34] [35]) [36]
+[32] [33] [34] [35] [36]) [37]
 Underfull \hbox (badness 10000) in paragraph at lines 76--78
 \T1/lmr/m/n/10 (+20) [ref: https://codesachin.wordpress.com/2015/08/16/logistic
 -regression-for-
@@ -1437,9 +1437,9 @@ Underfull \hbox (badness 1005) in paragraph at lines 81--83
 ro-fondire si veda
  []
 
-[37
+[38
 
-] [38]
+] [39]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 104.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 104.
  (./Stat-model.aux (./chapters/intro.aux) (./chapters/mcl.aux)
@@ -1447,7 +1447,7 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 104.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 104.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 104.
 Package rerunfilecheck Info: File `Stat-model.out' has not changed.
-(rerunfilecheck)             Checksum: 2A4A7BFA052CE7B48427EE49F4DB6C1A;8033.
+(rerunfilecheck)             Checksum: 767DC2CA3C252A8CA97805FC6A75475E;7284.
 
 
 LaTeX Warning: There were undefined references.
@@ -1455,11 +1455,11 @@ LaTeX Warning: There were undefined references.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 104.
  ) 
 Here is how much of TeX's memory you used:
- 21830 strings out of 494931
- 378741 string characters out of 6180851
+ 21827 strings out of 494931
+ 378694 string characters out of 6180851
  448565 words of memory out of 5000000
- 24342 multiletter control sequences out of 15000+600000
- 77490 words of font info for 140 fonts, out of 8000000 for 9000
+ 24336 multiletter control sequences out of 15000+600000
+ 77620 words of font info for 141 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  54i,17n,73p,1959b,534s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/share/texmf/fonts/en
@@ -1478,10 +1478,10 @@ s/type1/public/lm/lmri10.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb
 ></usr/share/texmf/fonts/type1/public/lm/lmsy5.pfb></usr/share/texmf/fonts/type
 1/public/lm/lmsy7.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt10.pfb></usr/
 share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on Stat-model.pdf (38 pages, 479553 bytes).
+Output written on Stat-model.pdf (39 pages, 480997 bytes).
 PDF statistics:
- 672 PDF objects out of 1000 (max. 8388607)
- 597 compressed objects within 6 object streams
- 229 named destinations out of 1000 (max. 500000)
- 8603 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 658 PDF objects out of 1000 (max. 8388607)
+ 582 compressed objects within 6 object streams
+ 230 named destinations out of 1000 (max. 500000)
+ 8555 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -290,8 +290,8 @@ Le trasformazioni logaritmiche in particolare possono aiutare nel caso il campo 
 Se gli errori non sono distribuiti in modo normale avvengono alcune conseguenze:
 
 \begin{enumerate}
-	\item I parametri stimati $\hat{\beta}$ non sono normali in quanto essi infatti posssono essere espressi come combinazione lineare degli errori, quindi se questi non sono normali anche i parametri non sono più normali.
-	\item Le stime che si ottengono tramite OLS non coincidono più con le stime di massima verosimiglianza. Dalle proprietà delle stime di massima verosimiglianza e dall'ipotesi di normalità possiamo tramite il teorema di Cramer-Rao si poteva concludere che gli stimatori OLS erano anche gli stimatori a minima varianza MVUE (Minimum Variance Unbiased Estimators). Tuttavia il teorema di Gauss-Markov assicura che sono ancora stimatori BLUE. Questo teorema infatti non fa alcuna richiesta sulla distribuzione che devono assumere gli errori, ma è sufficiente che siano:
+	\item I parametri stimati $\hat{\beta}$ non sono normali. Essi infatti possono essere espressi come combinazione lineare degli errori, quindi se questi non sono normali anche i parametri non sono più normali.
+	\item Le stime che si ottengono tramite OLS non coincidono più con le stime di massima verosimiglianza. Dalle proprietà delle stime di massima verosimiglianza e dall'ipotesi di normalità tramite il teorema di Cramer-Rao si poteva concludere che gli stimatori OLS erano anche gli stimatori a minima varianza MVUE (Minimum Variance Unbiased Estimators). Tuttavia il teorema di Gauss-Markov assicura che sono ancora stimatori BLUE. Questo teorema infatti non fa alcuna richiesta sulla distribuzione che devono assumere gli errori, ma è sufficiente che siano:
 	\begin{itemize}
 		\item a media nulla;
 		\item incorrelati;
@@ -301,10 +301,10 @@ Se gli errori non sono distribuiti in modo normale avvengono alcune conseguenze:
 \end{enumerate}
 
 \textit{Oss.}\\
-Distribuzioni non normali per gli errori si possono verificare nel caso in cui i campioni che si analizzano sono piccoli. Nel caso di campioni di grandi dimensioni la loro distribuzione tende asintoticamente alla distribuzione normale per il teorema del limite centrale. Quindi nel caso in cui si abbia una distribuzione non normale si può aumentare il numero di osservazioni per renderla normale, tuttavia ci sono dei casi in cui non è possibile fare questo, per es. nel caso in cui si stiano facedno delle analisi statistiche riguardo una malattia e quindi è necessario effettuare dei test di normalità.
+Distribuzioni non normali per gli errori si possono verificare nel caso in cui i campioni che si analizzano sono piccoli. Nel caso di campioni di grandi dimensioni la loro distribuzione tende asintoticamente alla distribuzione normale per il teorema del limite centrale. Quindi nel caso in cui si abbia una distribuzione non normale si può aumentare il numero di osservazioni per renderla normale. Tuttavia esistono dei casi in cui non è possibile fare questo, per esempio nel caso in cui si stiano facendo delle analisi statistiche riguardo una malattia non è possibile aumentare il numero di incidenza per avere più osservazioni. In questi casi è quindi necessario effettuare dei test di normalità.
 
 \subsection{Come si individua}
-La non normalità si può individuare in diversi modi.
+Come nelle altre violazioni del modello lineare la non normalità si può individuare tramite via grafica oppure effettuando dei test statistici.
 
 \subsubsection{Metodo grafico}
 Per via grafica si può procedere in diversi modi:
@@ -327,14 +327,14 @@ I test non parametrici sono test che sono indipendenti dalla distribuzione e non
 \subsubsection{Test di Shapiro-Wilk}
 Il test di Shapiro-Wilk è definito come segue:
 \begin{equation}
-W = \frac{(\sum_{i=1}^{n} a_i \varepsilon_i)^2}{\sum_{i=1}^{n} (\varepsilon)^2}
+W = \frac{(\sum_{i=1}^{n} a_i \varepsilon_i)^2}{\sum_{i=1}^{n} (\varepsilon_i)^2}
 \end{equation}
 ovvero come rapporto tra una devianza calcolata tramite dei pesi particolari $a_i$ definiti in apposite tabelle di Shapiro in base alla dimensione del campione (si veda \url{http://www.real-statistics.com/statistics-tables/shapiro-wilk-table/}) e la devianza campionaria stimata dai residui.\\
-$W$ è compreso tra $0$ e $1$, più è vicino a 1 più la distribuzione è normale. In generale per concludere la normalità o la non normalità dal test di Shapiro si può guardare il $p$-value associato al risultato (anche in questocaso il p-vlaue associato si può ricavare da apposite tabelle). Se il $p$-value è superiore al livello di significatività $\alpha$ scelto, allora si può concludere che la distribuzione non sia normale.\\
+$W$ è compreso tra $0$ e $1$, più è vicino a 1 più la distribuzione è normale. In generale per concludere la normalità o la non normalità dal test di Shapiro si può guardare il $p$-value associato al risultato (anche in questocaso il $p$-vlaue associato si può ricavare da apposite tabelle). Se il $p$-value è superiore al livello di significatività $\alpha$ scelto, allora si può concludere che la distribuzione non sia normale.\\
 Il test di Shapiro è un test fortemente asimmetrico, quindi anche se assume valori elevati approssimabili a 1 si potrebbe essere comunque in presenza di una distribuzione non normale. Per esempio con un valore di $W$ pari a $0.82$ si può già concludere che non ci sia normalità.
 
-\subsubsection{Test di Komogorov Smirnov}
-Test di Kolmogorov, misura le discrepanze sul QQ plot dalla diagonale e le valuta al quadrato. Se è uguale 0 siamo la distribuzione osservata è normale, non normale altrimenti. Anche qui ci sono regioni di accettazione e di rifiuto a cui fare riferimento in apposite tabelle. Se il valore che si trova dal test supera il valore critico tabulato a livello di significatività scelto allora la distribuzione non è normale.
+\subsubsection{Test di Kolmogorov Smirnov}
+Il test di Kolmogorov misura le discrepanze sul QQ plot dalla diagonale e le valuta al quadrato. Se è uguale 0 la distribuzione osservata è normale, non normale altrimenti. Anche qui ci sono regioni di accettazione e di rifiuto a cui fare riferimento in apposite tabelle. Se il valore che si trova dal test supera il valore critico tabulato a livello di significatività scelto allora la distribuzione non è normale.
 
 \subsubsection{Test di skewness}
 Il test di skewness è un test direzionale. Si basa sul fatto che la distribuzione normale è simmetrica e quindi viene elaborato un indice per questa simmetria. Per effettuare questo tipo di test  ènecessario avere un campione di grandi dimensioni, per questo spesso a partire dai dati che si hanno (che solitamente sono pochi quando si vuole effettuare un test di normalità), il valore dell'indice si ottiene dopo diverse iterazioni.\\
@@ -355,7 +355,7 @@ Il test è dato dalla distribuzione di $K-3$, che quindi in condizioni di normal
 Rigettando l'ipotesi nulla si rifiuta la normalità, ma non rigettandola si conclude solo che la distribuzione che si osserva ha kurtosi uguale a 3.
 
 \subsection{Come si risolve}
-Come si è detto per portarsi in una condizione di normalità per la distribuzione degli errori bisogna innanzitutto pensare di allargare il campione, se è possibile farlo. Nel caso in cui non sia possibile si può provare ad applicare alcun trasformazioni in modo che la distribuzione risulti normale. Nel caso di eteroschedasticità classico degli errori la deviazione è data da variazioni individuali, mentre nel caso di non normalità o non linearità l'errore è sistematico, quindi se si riesce ad individuare la struttura sistematica sottesa alle deviazioni non lineari/non normali ci si può riportare alla distribuzione corretta. Le principali trasformazioni sono:
+Come si è detto per portarsi in una condizione di normalità per la distribuzione degli errori bisogna innanzitutto pensare di allargare il campione, se è possibile farlo. Nel caso in cui non sia possibile si può provare ad applicare alcune trasformazioni in modo che la distribuzione risulti normale. Nel caso di eteroschedasticità classico degli errori la deviazione è data da variazioni individuali, mentre nel caso di non normalità o non linearità l'errore è sistematico, quindi se si riesce ad individuare la struttura sistematica sottesa alle deviazioni non lineari/non normali ci si può riportare alla distribuzione corretta. Le principali trasformazioni sono:
 \begin{itemize}
 	\item $\log(y)$, quando lo scarto quadratico (errori) cresce con $y$ o ha un'asimmetria positiva.
 	\item $y^2$, quando lo scarto quadratico (errori) è proporzionale al valore atteso di y o asimmetria negativa.
@@ -367,28 +367,29 @@ Come si è detto per portarsi in una condizione di normalità per la distribuzio
 Ci potrebbero essere sia errori eteroschedastici che non lineari/non normali. Ovvero dopo aver applicato anche un'opportuna trasformazione potrei ancora avere delle variazioni individuali che non ho individuato. Quindi devo applicare anche WLS.
 
 \section{Outlier}
-I valori outlier sono quelle osservazioni che presentano valori estremamente elevati o estremamente bassi rispetto alla distribuzione del resto dei valori osservati. Valori outlier possono influenzare molti indicatori come media, deviazione standard e asimmetria della curtosi, oltre agli indici di associazione tra le variabili come il coefficiente di correlazione di Pearson. Le osservazioni che influenzano di più le stime sono dette \textit{punti influenti}. Non sempre un valore outlier è un valore influente, ma nel caso in cui gli outlier siano anche influenti è più indicato utilizzare la distanza di Cook.
+I valori outlier sono quelle osservazioni che presentano valori estremamente elevati o estremamente bassi rispetto alla distribuzione del resto dei valori osservati. È comunque necessario osservare la distribuzione nella sua interezza per vedere se tali osservazioni corrispondono a casi isolati oppure no. Valori outlier possono influenzare molti indicatori come media, deviazione standard e asimmetria della curtosi, oltre agli indici di associazione tra le variabili come il coefficiente di correlazione di Pearson. Le osservazioni che influenzano di più le stime sono dette \textit{punti influenti}. Non sempre un valore outlier è un valore influente, ma nel caso in cui gli outlier siano anche influenti è più indicato utilizzare la distanza di Cook.
 \subsection{Come si individuano}
 \subsubsection{Rappresentazione grafica}
 Per via grafica gli outlier si possono individuare tramite:
 \begin{enumerate}
-	\item Box plot
-	\item Scatter plot
-	\item Dispersione non elevata dalla retta di regressione e elevato $R^2$.
-	\item Direzione relazionale positiva
+	\item \textbf{Box plot}, osservo i valori che sono fuori dagli estremi del box.
+	\item \textbf{Scatter plot} della variabile dipendente in funzione della variabile di regressione (o delle variabili). Valori isolati troppo distanti dalla retta di regressione sono da considerarsi outlier.
+	\item \textbf{Dispersione} non elevata dalla retta di regressione e elevato $R^2$. Ovvero tutti i punti devono disporsi più o meno attorno alla retta di regressione con qualche variabilità ma senza una dispersione elevata da essa. 
+	\item \textbf{Direzione relazionale} positiva.
 \end{enumerate}
 
 \subsection{Indicatori}
+Alternativamente la metodo grafico si può far ricorso a diversi indicatori che ci possono permettere di capire se si è in presenza di valori outlier o meno.
 
 \subsubsection{Leverage values}
-Data la matrice $H = X(X^t X)^{-1} X^t$ detta \textit{matrice di proiezione} (è la matrice che stima i minimi quadrati, ma in generale è una matrice $n \times n$ detta di proiezione). Gli elementi sulla diagonale principale prendono il nome di \textit{leverage values}. Valori piccoli per questi elementi sulla diagonale principale indicano che lo stimatore di $y$ è basato su molte osservazioni e che quindi la singola osservazione non è dominante, al contrario se è elevato vuol dire che l'osservazione corrispondente è influente nella stima di $y$. Analogamente quando si hanno valori vicini a $1$ del rapporto tra $h_{ii}$ e la somma di tutti i valori sulla diagonale principale, indica che la stima del modelle è determinata in modo predominante dalla singola osservazione. Sulla base di questi valori è calcolato il \textit{leverage index}.\\
+Data la matrice $H = X(X^t X)^{-1} X^t$ detta \textit{matrice di proiezione} (è la matrice che stima i minimi quadrati, ma in generale è una matrice $n \times n$ detta di proiezione). Gli elementi sulla diagonale principale prendono il nome di \textit{leverage values}. Valori piccoli per questi elementi sulla diagonale principale indicano che lo stimatore di $y$ è basato su molte osservazioni e che quindi la singola osservazione non è dominante, al contrario se è elevato vuol dire che l'osservazione corrispondente è influente nella stima di $y$. Analogamente quando si hanno valori vicini a $1$ del rapporto tra $h_{ii}$ e la somma di tutti i valori sulla diagonale principale, indica che la stima del modelle è determinata in modo predominante dalla singola osservazione. \\
 Il valore medio del \textit{leverage index} è calcolato come:
 \begin{equation}
 \frac{k+1}{n}
 \end{equation}
 dove $k$ è il numero delle variabili esplicative e $n$ il numero di osservazioni. Generalmente se un valore leverage $h_{ii}$ sulla diagonale è maggiore di 2 volte questo valore medio allora si è in presenza di possibili outlier.
 
-\subsection{Residui standardizzati}
+\subsubsection{Residui standardizzati}
 I residui standardizzati sono definiti come segue:
 \begin{equation}
 \varepsilon^\star = \frac{\varepsilon_i}{\sigma \sqrt{1-h_{ii}}}
@@ -396,15 +397,15 @@ I residui standardizzati sono definiti come segue:
 Rappresentando in uno scatter-plot i residui standardizzati in funzione dei valori previsti dobbiamo cercare per residui molto elevati. In un campione distribuito normalmente il $95\%$ dei valori osservati è compreso tra $-2$ e $+2$, mentre al $99\%$ sono compresi tra $-2,5$ e $+2,5$. Un'osservazione con un residuo standardizzato con un valore di $3$ è probabilmente un outlier.\\
 Se più dell’$1\%$ dei casi osservati ha valori assoluti di residui standardizzati maggiori di $2,5$ il risultato del fit è basso e se più del $5\%$ hanno valori assoluti di residui standardizzati maggiori di $2$, allora il risultato del fit è molto basso. Non si possono però individuare delle soglie per i residui standardizzati in base alle quali stabilire con certezza se un'osservazione è un outlier o meno.
 
-\subsection{Residui studentizzati}
-Questo tipo si residui sono utilizzati per verificare la presenza di osservazioni anomale in campioni di elevata numerosità. Sono i residui divisi per una stima della deviazione standard che varia dap unto a punto, ovvero:
+\subsubsection{Residui studentizzati}
+Questo tipo si residui sono utilizzati per verificare la presenza di osservazioni anomale in campioni di elevata numerosità. Sono i residui divisi per una stima della deviazione standard che varia da punto a punto, ovvero:
 \begin{equation}
 \varepsilon_i^\star = \frac{\varepsilon_i}{s_{\varepsilon_i}} \sqrt{1-h_{ii}}
 \end{equation}
 Allo stesso modo si possono definire dei residui studentizzati jacknife che sono i residui divisi per una stima della deviazione standard dei residui ottenuta eliminando dal dataset l'i-esima osservazione.\\
 Osservazioni con valori di residui studentizzati maggiori di 3 sono considerate outliers.
 
-\subsection{COVRATI}
+\subsubsection{COVRATI}
 La statistica COVRATI misura l'impatto di ciascuna osservazione sulle varianze dei coefficienti di regressione e sulle loro covarianze. Sono definiti come:
 \begin{equation}
 COVRATI = \frac{\det(\sigma_i X_i^t X_i)^{-1}}{\det(\sigma^2(X_i^t X_i)^{-1})}
@@ -412,18 +413,18 @@ COVRATI = \frac{\det(\sigma_i X_i^t X_i)^{-1}}{\det(\sigma^2(X_i^t X_i)^{-1})}
 Dove i valori con il pedice $i$ indicano che le matrici sono considerate eliminando l'i-esima osservazione.\\
 Con questa statisica osservazioni con valori al di fuori dell'intervallo $1 \pm 3(\frac{k+1}{n})^{1/2}$ sono considerate outlier.
 
-\subsection{DFITTS}
+\subsubsection{DFITTS}
 La statistica DFITTS di un'osservazione misura l’influenza di quell'osservazione sulla stima dei coefficienti di regressione e sulla loro varianza quando viene rimossa dal processo di stima.\\
 Valori al di fuori dell'intervallo:
 \begin{equation}
-\pm 2 (\frac{k+1}{n})^{1/2} 
+\pm 2 \left(\frac{k+1}{n}\right)^{1/2} 
 \end{equation}
 sono da considerarsi outlier.
-\subsection{DFBETAS}
+\subsubsection{DFBETAS}
 La statistica DFBETAS misura l’influenza di un'osservazione, quando viene rimossa dal processo di stima, sulle stime di ogni coefficiente di regressione separatamente.\\
-Come valore soglia oltre il qual un'ossrevazione viene considerata come outlier è il valore 2 o $2 \cdot n^{1/2}$ che tiene conto anche del numero di osservazioni.
+Come valore soglia oltre il qual un'ossrevazione viene considerata come outlier si prende il valore 2 o $2 \cdot n^{1/2}$ che tiene conto anche del numero di osservazioni.
 
-\subsection{Distanza di Cook}
+\subsubsection{Distanza di Cook}
 La distanza di Cook misura l’influenza di una singola osservazione sulla stima dei coefficienti di regressione, in termini di capacità del modello di predire tutti i casi quando la singola osservazione viene rimossa dal processo di stima. Un valore della distanza di Cook maggiore di 1 indica che il punto è influente.
 
 
